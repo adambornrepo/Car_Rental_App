@@ -1,7 +1,9 @@
 package com.g4.service;
 
 import com.g4.domain.PersonalCustomer;
-import com.g4.dto.PersonalCustomerRegistryDTO;
+import com.g4.dto.PersonalCustomerDTO;
+import com.g4.enums.CustomerStatus;
+import com.g4.exception.ResourceNotFoundException;
 import com.g4.exception.UniqueValueAlreadyExistException;
 import com.g4.repository.PersonalCustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +19,10 @@ public class PersonalCustomerService {
         this.personalCustomerRepository = personalCustomerRepository;
     }
 
-    public PersonalCustomer createPersonalCustomer(PersonalCustomerRegistryDTO personalCustomerRegistryDTO) {
+    public PersonalCustomer createPersonalCustomer(PersonalCustomerDTO personalCustomerDTO) {
 
-        boolean existsByUsername = personalCustomerRepository.existsByUsername(personalCustomerRegistryDTO.getUsername());
-        boolean existsByPhoneNumber = personalCustomerRepository.existsByPhoneNumber(personalCustomerRegistryDTO.getPhoneNumber());
+        boolean existsByUsername = personalCustomerRepository.existsByUsername(personalCustomerDTO.getUsername());
+        boolean existsByPhoneNumber = personalCustomerRepository.existsByPhoneNumber(personalCustomerDTO.getPhoneNumber());
 
         if (existsByUsername) {
             throw new UniqueValueAlreadyExistException("Username is already registered");
@@ -30,13 +32,60 @@ public class PersonalCustomerService {
 
 
         PersonalCustomer personalCustomer = new PersonalCustomer();
-        personalCustomer.setName(personalCustomerRegistryDTO.getName());
-        personalCustomer.setLastname(personalCustomerRegistryDTO.getLastname());
-        personalCustomer.setPhoneNumber(personalCustomerRegistryDTO.getPhoneNumber());
-        personalCustomer.setUsername(personalCustomerRegistryDTO.getUsername());
-        personalCustomer.setPassword(personalCustomerRegistryDTO.getPassword());
-        personalCustomer.setLicenseYear(personalCustomerRegistryDTO.getLicenseYear());
+
+        personalCustomer.setName(personalCustomerDTO.getName());
+        personalCustomer.setLastname(personalCustomerDTO.getLastname());
+        personalCustomer.setPhoneNumber(personalCustomerDTO.getPhoneNumber());
+        personalCustomer.setUsername(personalCustomerDTO.getUsername());
+        personalCustomer.setPassword(personalCustomerDTO.getPassword());
+        personalCustomer.setLicenseYear(personalCustomerDTO.getLicenseYear());
 
         return personalCustomerRepository.save(personalCustomer);
+    }
+
+    public PersonalCustomerDTO findPersonalCustomerById(Long id) {
+        PersonalCustomer personalCustomer = personalCustomerRepository.
+                findById(id).
+                orElseThrow(() -> new ResourceNotFoundException("Personal customer with this ID not found :" + id));
+
+        PersonalCustomerDTO found = new PersonalCustomerDTO(personalCustomer);
+        return found;
+    }
+
+
+    public void updatePersonalCustomer(Long id, PersonalCustomerDTO personalCustomerDTO) {
+
+        PersonalCustomer personalCustomer = personalCustomerRepository.
+                findById(id).
+                orElseThrow(() -> new ResourceNotFoundException("Personal customer not found with id: " + id));
+
+        if (!personalCustomer.getUsername().equals(personalCustomerDTO.getUsername())
+                && personalCustomerRepository.findByUsername(personalCustomerDTO.getUsername()).isPresent()) {
+            throw new UniqueValueAlreadyExistException("Username already exists");
+        }
+
+        if (!personalCustomer.getPhoneNumber().equals(personalCustomerDTO.getPhoneNumber())
+                && personalCustomerRepository.findByPhoneNumber(personalCustomerDTO.getPhoneNumber()).isPresent()) {
+            throw new UniqueValueAlreadyExistException("Phone number already exists");
+        }
+
+        personalCustomer.setName(personalCustomerDTO.getName());
+        personalCustomer.setLastname(personalCustomerDTO.getLastname());
+        personalCustomer.setPhoneNumber(personalCustomerDTO.getPhoneNumber());
+        personalCustomer.setUsername(personalCustomerDTO.getUsername());
+        personalCustomer.setPassword(personalCustomerDTO.getPassword());
+        personalCustomer.setLicenseYear(personalCustomerDTO.getLicenseYear());
+        personalCustomer.setStatus(personalCustomerDTO.getStatus());
+
+        personalCustomerRepository.save(personalCustomer);
+
+    }
+
+    public void deletePersonalCustomer(Long id) {
+
+        PersonalCustomerDTO found = findPersonalCustomerById(id);
+        found.setStatus(CustomerStatus.TERMINATED);
+        updatePersonalCustomer(id, found);
+
     }
 }
