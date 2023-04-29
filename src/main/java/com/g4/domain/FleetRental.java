@@ -3,6 +3,7 @@ package com.g4.domain;
 import com.g4.enums.RentalStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -48,6 +49,14 @@ public class FleetRental {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private RentalStatus status;
+
+    @Positive(message = "Total price cannot be negative")
+    @NotNull(message = "Total price cannot be null")
+    @Column(nullable = false)
+    private Double totalPrice;
+
+    @Transient
+    private Integer amountOfCars;
 
     @Lob
     private byte[] agreement;
