@@ -42,17 +42,17 @@ public class PersonalCustomerController {
 
     @GetMapping("/{id}")
     public ResponseEntity<PersonalCustomerDTO> getPersonalCustomerById(@PathVariable("id") Long id) {
-        // Implement the getPersonalCustomerById method here
+
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updatePersonalCustomer(@PathVariable("id") Long id, @Valid @RequestBody PersonalCustomerDTO personalCustomerDTO, BindingResult result) {
-        // Implement the updatePersonalCustomer method here
+
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletePersonalCustomer(@PathVariable("id") Long id) {
-        // Implement the deletePersonalCustomer method here
+
     }
 
      */
