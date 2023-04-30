@@ -9,9 +9,10 @@ public enum CarType {
 
     SEDAN("Sedan"),
     HATCHBACK("Hatchback"),
+    COUPE("Coupe"),
     SUV("Suv"),
     TRUCK("Truck"),
     VAN("Van");
 
-    private final String values;
+    private final String value;
 }

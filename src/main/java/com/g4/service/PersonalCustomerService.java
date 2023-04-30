@@ -46,18 +46,25 @@ public class PersonalCustomerService {
     public PersonalCustomerDTO findPersonalCustomerById(Long id) {
         PersonalCustomer personalCustomer = personalCustomerRepository.
                 findById(id).
-                orElseThrow(() -> new ResourceNotFoundException("Personal customer with this ID not found :" + id));
+                orElseThrow(() -> new ResourceNotFoundException("Personal customer with this ID not found : " + id));
 
-        PersonalCustomerDTO found = new PersonalCustomerDTO(personalCustomer);
-        return found;
+        return new PersonalCustomerDTO(personalCustomer);
+    }
+
+    public PersonalCustomer findPersonal(String phoneNumber) {
+
+        return personalCustomerRepository.
+                findByPhoneNumber(phoneNumber).
+                orElseThrow(() -> new ResourceNotFoundException("Personal customer with this phone number not found :" + phoneNumber));
+
     }
 
 
-    public void updatePersonalCustomer(Long id, PersonalCustomerDTO personalCustomerDTO) {
+    public void updatePersonalCustomer(String phoneNumber, PersonalCustomerDTO personalCustomerDTO) {
 
         PersonalCustomer personalCustomer = personalCustomerRepository.
-                findById(id).
-                orElseThrow(() -> new ResourceNotFoundException("Personal customer not found with id: " + id));
+                findByPhoneNumber(phoneNumber).
+                orElseThrow(() -> new ResourceNotFoundException("Personal customer not found with this phone number : " + phoneNumber));
 
         if (!personalCustomer.getUsername().equals(personalCustomerDTO.getUsername())
                 && personalCustomerRepository.findByUsername(personalCustomerDTO.getUsername()).isPresent()) {
@@ -81,11 +88,22 @@ public class PersonalCustomerService {
 
     }
 
-    public void deletePersonalCustomer(Long id) {
+    public void deletePersonalCustomer(String phoneNumber) {
 
-        PersonalCustomerDTO found = findPersonalCustomerById(id);
+        PersonalCustomerDTO found = findPersonalCustomerByPhoneNumber(phoneNumber);
         found.setStatus(CustomerStatus.TERMINATED);
-        updatePersonalCustomer(id, found);
+        updatePersonalCustomer(phoneNumber, found);
 
     }
+
+    public PersonalCustomerDTO findPersonalCustomerByPhoneNumber(String phoneNumber) {
+
+        PersonalCustomer personalCustomer = personalCustomerRepository.
+                findByPhoneNumber(phoneNumber).
+                orElseThrow(() -> new ResourceNotFoundException("Personal customer with this phone number not found :" + phoneNumber));
+
+        return new PersonalCustomerDTO(personalCustomer);
+
+    }
+
 }

@@ -12,7 +12,7 @@ public interface PersonalCustomerRepository extends JpaRepository<PersonalCustom
 
     boolean existsByPhoneNumber(String phoneNumber);
 
-    Optional<?> findByPhoneNumber(String phoneNumber);
+    Optional<PersonalCustomer> findByPhoneNumber(String phoneNumber);
 
-    Optional<?> findByUsername(String username);
+    Optional<PersonalCustomer> findByUsername(String username);
 }

@@ -8,6 +8,7 @@ import lombok.Getter;
 public enum CustomerStatus {
 
     AVAILABLE("Available"),
+    HAS_RENTED("HasRented"),
     SUSPENDED("Suspended"),
     TERMINATED("Terminated");
 

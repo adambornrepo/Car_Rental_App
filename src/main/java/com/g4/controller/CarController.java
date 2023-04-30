@@ -1,11 +1,12 @@
 package com.g4.controller;
 
-import com.g4.domain.Car;
+import com.g4.dto.CarDTO;
 import com.g4.service.CarService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -24,14 +25,19 @@ public class CarController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Car>> getAll() {
-        List<Car> cars = carService.getAll();
+    public ResponseEntity<List<CarDTO>> getAll() {
+        List<CarDTO> cars = carService.getAll();
         return ResponseEntity.ok(cars);
     }
 
     @PostMapping
-    public ResponseEntity<Map<String, String>> addCar(@Valid @RequestBody Car car) {
-        carService.createCar(car);
+    public ResponseEntity<?> addCar(@Valid @RequestBody CarDTO carDTO, BindingResult result) {
+
+        if (result.hasErrors()) {
+            return ResponseEntity.badRequest().body("Invalid input");
+        }
+
+        carService.createCar(carDTO);
 
         Map<String, String> response = new HashMap<>();
         response.put("message", "Car is created");
@@ -41,16 +47,28 @@ public class CarController {
     }
 
     @GetMapping("/find")
-    public ResponseEntity<Car> getCar(@RequestParam("id") Long id) {
-        Car car = carService.findCar(id);
+    public ResponseEntity<CarDTO> getCarById(@RequestParam("plate") String plateNumber) {
+        CarDTO found = carService.findCarByPlateNumber(plateNumber);
 
-        return ResponseEntity.ok(car);
+        return ResponseEntity.ok(found);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Map<String, String>> deleteCar(@PathVariable("id") Long id) {
+    @PutMapping("/{plate}")
+    public ResponseEntity<?> updateCar(@PathVariable("plate") String plateNumber, @Valid @RequestBody CarDTO carDTO, BindingResult result) {
 
-        carService.deleteCar(id);
+        if (result.hasErrors()) {
+            return ResponseEntity.badRequest().body("Invalid input");
+        }
+
+        carService.updateCar(plateNumber, carDTO);
+
+        return ResponseEntity.status(HttpStatus.OK).body("Car successfully updated");
+    }
+
+    @DeleteMapping("/{plate}")
+    public ResponseEntity<Map<String, String>> deleteCar(@PathVariable("plate") String plateNumber) {
+
+        carService.deleteCar(plateNumber);
 
         Map<String, String> response = new HashMap<>();
         response.put("message", "Car is deleted");

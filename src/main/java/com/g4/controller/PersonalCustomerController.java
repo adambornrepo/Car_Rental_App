@@ -11,7 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/per")
+@RequestMapping("/per") //localhost:8080/per
 public class PersonalCustomerController {
 
     private PersonalCustomerService personalCustomerService;
@@ -30,6 +30,7 @@ public class PersonalCustomerController {
 
         PersonalCustomer personalCustomer = personalCustomerService.createPersonalCustomer(personalCustomerDTO);
 
+        //use it
         if (personalCustomer == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Could not create personal customer");
         }
@@ -38,35 +39,39 @@ public class PersonalCustomerController {
     }
 
 
-    @GetMapping("/{id}")
-    public ResponseEntity<PersonalCustomerDTO> getPersonalCustomerById(@PathVariable("id") Long id) {
+    @GetMapping("/{phoneNum}")
+    public ResponseEntity<PersonalCustomerDTO> getPersonalCustomerById(@PathVariable("phoneNum") String phoneNumber) {
 
-        PersonalCustomerDTO found = personalCustomerService.findPersonalCustomerById(id);
+        PersonalCustomerDTO found = personalCustomerService.findPersonalCustomerByPhoneNumber(phoneNumber);
         return ResponseEntity.ok(found);
 
     }
 
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updatePersonalCustomer(@PathVariable("id") Long id, @Valid @RequestBody PersonalCustomerDTO personalCustomerDTO, BindingResult result) {
+    @PutMapping("/{phoneNum}")
+    public ResponseEntity<?> updatePersonalCustomer(@PathVariable("phoneNum") String phoneNumber, @Valid @RequestBody PersonalCustomerDTO personalCustomerDTO, BindingResult result) {
 
         if (result.hasErrors()) {
             return ResponseEntity.badRequest().body("Invalid input");
         }
 
-        personalCustomerService.updatePersonalCustomer(id, personalCustomerDTO);
+        personalCustomerService.updatePersonalCustomer(phoneNumber, personalCustomerDTO);
 
         return ResponseEntity.status(HttpStatus.OK).body("Personal customer successfully updated");
     }
 
 
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deletePersonalCustomer(@PathVariable("id") Long id) {
+    @DeleteMapping("/{phoneNum}")
+    public ResponseEntity<?> deletePersonalCustomer(@PathVariable("phoneNum") String phoneNumber) {
 
-        personalCustomerService.deletePersonalCustomer(id);
+        personalCustomerService.deletePersonalCustomer(phoneNumber);
 
         return ResponseEntity.ok("Personal customer successfully deleted");
     }
+
+    //getAll + GET
+
+    //findbyUsername + GET istekleri oluşturulabilir
 
 }
