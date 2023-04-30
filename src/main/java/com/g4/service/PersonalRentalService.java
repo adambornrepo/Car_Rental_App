@@ -13,6 +13,7 @@ import com.g4.repository.PersonalRentalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,8 +60,16 @@ public class PersonalRentalService {
 
         personalRentalRepository.save(personalRental);
 
-        car.setStatus(CarStatus.RENTED);
-        carService.updateCar(car.getPlateNumber(), car);//update methodu yazılacak
+        if (personalRentalDTO.getStatus().equals(RentalStatus.RENTED)) {
+            car.setStatus(CarStatus.RENTED);
+        } else if (personalRentalDTO.getStatus().equals(RentalStatus.RESERVED)) {
+            car.setStatus(CarStatus.RESERVED);
+        } else {
+            throw new StatusMismatchException("this status cannot be used when creating a rental : " + personalRentalDTO.getStatus());
+        }
+
+
+        carService.updateCar(car.getPlateNumber(), car);
 
         personalCustomer.setStatus(CustomerStatus.HAS_RENTED);
         personalCustomerService.updatePersonalCustomer(personalCustomer.getPhoneNumber(), personalCustomer);
@@ -72,9 +81,15 @@ public class PersonalRentalService {
     public void cancelPersonalRental(Long id) {
 
         PersonalRentalDTO foundPersonalRental = findPersonalRentalById(id);
-        foundPersonalRental.setStatus(RentalStatus.CANCELLED);
-        updatePersonalRental(id, foundPersonalRental);
 
+        if (foundPersonalRental.getStatus().equals(RentalStatus.RESERVED)) {
+
+            foundPersonalRental.setStatus(RentalStatus.CANCELLED);
+            updatePersonalRental(id, foundPersonalRental);
+
+        } else {
+            throw new StatusMismatchException("Rental cannot be cancelled. Because the rental : " + foundPersonalRental.getStatus());
+        }
 
     }
 
@@ -84,17 +99,26 @@ public class PersonalRentalService {
                 findById(id).
                 orElseThrow(() -> new ResourceNotFoundException("Personal rental not found with this id : " + id));
 
-        CarDTO carUpdate = rentalDTO.getCar();
+        CarDTO carUpdated = rentalDTO.getCar();
         PersonalCustomerDTO customerUpdate = rentalDTO.getCustomer();
 
-        CarStatus status = carService.findCarByPlateNumber(carUpdate.getPlateNumber()).getStatus();
+        CarStatus status = carService.findCarByPlateNumber(carUpdated.getPlateNumber()).getStatus();
 
-        if (!personalRental.getCar().getPlateNumber().equals(carUpdate.getPlateNumber())
-                && !status.equals("AVAILABLE")) {
+        if (!personalRental.getCar().getPlateNumber().equals(carUpdated.getPlateNumber()) && !status.equals(CarStatus.AVAILABLE)) {
             throw new StatusMismatchException("Personal rental cannot be updated with this car. Because car is  : " + status);
         }
 
-        personalRental.setCar(carService.findCar(carUpdate.getPlateNumber()));
+        if (!personalRental.getCar().getPlateNumber().equals(carUpdated.getPlateNumber())) {
+
+            CarDTO car = new CarDTO(personalRental.getCar());
+            car.setStatus(CarStatus.AVAILABLE);
+            carService.updateCar(car.getPlateNumber(), car);
+
+            carUpdated.setStatus(CarStatus.RENTED);
+            carService.updateCar(carUpdated.getPlateNumber(), carUpdated);
+        }
+
+        personalRental.setCar(carService.findCar(carUpdated.getPlateNumber()));
         personalRental.setCustomer(personalCustomerService.findPersonal(customerUpdate.getPhoneNumber()));
         personalRental.setReturnDate(rentalDTO.getReturnDate());
         personalRental.setReturnDate(rentalDTO.getReturnDate());
@@ -104,12 +128,14 @@ public class PersonalRentalService {
         return new PersonalRentalDTO(personalRental);
     }
 
-    public List<PersonalRentalDTO> getAllRentals() {
+    public List<PersonalRentalDTO> getAllOngoingRentals() {
         List<PersonalRentalDTO> allRentalDTO = new ArrayList<>();
 
-        personalRentalRepository.
-                findAll().stream().filter(personalRental -> personalRental.getStatus().equals("RENTED")).
-                forEach(personalRental -> allRentalDTO.add(new PersonalRentalDTO(personalRental)));
+        personalRentalRepository
+                .findAll()
+                .stream()
+                .filter(personalRental -> personalRental.getStatus().equals(RentalStatus.RENTED) || personalRental.getStatus().equals(RentalStatus.RESERVED))
+                .forEach(personalRental -> allRentalDTO.add(new PersonalRentalDTO(personalRental)));
 
         return allRentalDTO;
     }
@@ -117,30 +143,33 @@ public class PersonalRentalService {
     public PersonalRentalDTO findPersonalRentalById(Long id) {
 
         PersonalRental personalRental = personalRentalRepository.
-                findById(id).
-                orElseThrow(() -> new ResourceNotFoundException("Personal rental not found with this id : " + id));
+                findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Personal rental not found with this id : " + id));
 
         return new PersonalRentalDTO(personalRental);
     }
 
+    public List<PersonalRentalDTO> getPersonalRentalByPerCustomerPhoneNum(String phoneNum) {
 
-//    public PersonalRentalDTO findPersonalRentalByCarPlateNum(String plateNumber) {
-//
-//
-//        PersonalRental personalRental = personalRentalRepository.
-//                findPersonalRentalByCar(carService.findCar(plateNumber)).
-//                orElseThrow(() -> new ResourceNotFoundException("Personal rental not found with this plate number : " + plateNumber));
-//
-//        return new PersonalRentalDTO(personalRental);
-//    }
-//
-//    public PersonalRentalDTO findPersonalRentalByPerCustomerPhoneNum(String phoneNumber) {
-//
-//        PersonalRental personalRental = personalRentalRepository.
-//                findPersonalRentalByPersonalCustomer(personalCustomerService.findPersonal(phoneNumber)).
-//                orElseThrow(() -> new ResourceNotFoundException("Personal rental not found with this phone number : " + phoneNumber));
-//
-//        return new PersonalRentalDTO(personalRental);
-//    }
+        return getAllOngoingRentals()
+                .stream()
+                .filter(personalRentalDTO -> personalRentalDTO.getCustomer().getPhoneNumber().equals(phoneNum))
+                .toList();
+    }
+
+
+    public List<PersonalRentalDTO> getPersonalRentalByReturnDate(LocalDate returnDate) {
+
+        List<PersonalRentalDTO> allRentalDTOReturnDate = new ArrayList<>();
+
+        personalRentalRepository
+                .findAllByReturnDate(returnDate)
+                .stream()
+                .filter(personalRental -> personalRental.getReturnDate().isEqual(returnDate))
+                .forEach(personalRental -> allRentalDTOReturnDate.add(new PersonalRentalDTO(personalRental)));
+
+        return allRentalDTOReturnDate;
+    }
+
 
 }

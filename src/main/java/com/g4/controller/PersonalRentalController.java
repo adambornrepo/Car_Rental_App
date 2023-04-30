@@ -1,6 +1,5 @@
 package com.g4.controller;
 
-import com.g4.domain.PersonalRental;
 import com.g4.dto.PersonalRentalDTO;
 import com.g4.service.PersonalRentalService;
 import jakarta.validation.Valid;
@@ -10,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -23,12 +23,33 @@ public class PersonalRentalController {
         this.personalRentalService = personalRentalService;
     }
 
-    @GetMapping
-    public ResponseEntity<List<PersonalRentalDTO>> getAllRentals() {
+    @GetMapping("/ongoing")
+    public ResponseEntity<List<PersonalRentalDTO>> getAllOngoingRentals() {
 
-        List<PersonalRentalDTO> rentals = personalRentalService.getAllRentals();
+        List<PersonalRentalDTO> rentals = personalRentalService.getAllOngoingRentals();
 
         return ResponseEntity.ok(rentals);
+    }
+
+    @GetMapping("/find")
+    public ResponseEntity<PersonalRentalDTO> getRentalById(@RequestParam("id") Long id) {
+
+        PersonalRentalDTO found = personalRentalService.findPersonalRentalById(id);
+        return ResponseEntity.ok(found);
+    }
+
+    @GetMapping("/findAll")
+    public ResponseEntity<List<PersonalRentalDTO>> getRentalByPerCustomerPhoneNum(@RequestParam("phoneNum") String phoneNum) {
+
+        List<PersonalRentalDTO> foundRentals = personalRentalService.getPersonalRentalByPerCustomerPhoneNum(phoneNum);
+        return ResponseEntity.ok(foundRentals);
+    }
+
+    @GetMapping("/return")
+    public ResponseEntity<List<PersonalRentalDTO>> getPersonalRentalByReturnDate(@RequestParam("date") LocalDate returnDate) {
+
+        List<PersonalRentalDTO> foundRentals = personalRentalService.getPersonalRentalByReturnDate(returnDate);
+        return ResponseEntity.ok(foundRentals);
     }
 
     @PostMapping
@@ -46,47 +67,6 @@ public class PersonalRentalController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(rentalDTO);
     }
-    /*
-
-    bugun teslimi olan carları listele get + returnDate
-
-    id ile rental bul tamam
-
-    carDTO ile rental bul çalışmıyor
-
-    personalCustomer ile Rental bul çalışmıyor
-
-    RentalStatus a göre listele tamam sanırım
-
-    update
-
-    delete -->  burada değişiklik yapma işinini düşün rented den sonra update olmaması lazım
-
-     */
-
-
-    @GetMapping("/{id}")
-    public ResponseEntity<PersonalRentalDTO> getRentalById(@PathVariable Long id) {
-
-        PersonalRentalDTO found = personalRentalService.findPersonalRentalById(id);
-        return ResponseEntity.ok(found);
-    }
-
-//    @GetMapping("/{plate}")
-//    public ResponseEntity<PersonalRentalDTO> getRentalByCarPlateNum(@PathVariable String plateNumber) {
-//
-//        PersonalRentalDTO found = personalRentalService.findPersonalRentalByCarPlateNum(plateNumber);
-//        return ResponseEntity.ok(found);
-//    }
-//
-//    @GetMapping("/{perPhone}")
-//    public ResponseEntity<PersonalRentalDTO> getRentalByPerCustomerPhoneNum(@PathVariable String phoneNumber) {
-//
-//        PersonalRentalDTO found = personalRentalService.findPersonalRentalByPerCustomerPhoneNum(phoneNumber);
-//        return ResponseEntity.ok(found);
-//    }
-
-
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updatePersonalRental(@PathVariable Long id, @RequestBody PersonalRentalDTO rentalDTO, BindingResult result) {
@@ -103,7 +83,6 @@ public class PersonalRentalController {
 
         return ResponseEntity.ok(personalRentalDTO);
     }
-
 
 
     @DeleteMapping("/{id}")

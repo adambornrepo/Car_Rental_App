@@ -14,8 +14,9 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class PersonalRentalDTO {
 
+    private Long id;
+
     @NotNull(message = "Car must be provided for rental process")
-    @ManyToOne(fetch = FetchType.LAZY)
     private CarDTO car;
 
     @NotNull(message = "Customer must be provided for rental process")
@@ -28,6 +29,7 @@ public class PersonalRentalDTO {
     private RentalStatus status;
 
     public PersonalRentalDTO(PersonalRental personalRental) {
+        this.id = personalRental.getId();
         this.car = new CarDTO(personalRental.getCar());
         this.customer = new PersonalCustomerDTO(personalRental.getCustomer());
         this.returnDate = personalRental.getReturnDate();

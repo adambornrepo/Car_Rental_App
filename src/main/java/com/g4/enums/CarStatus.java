@@ -7,6 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum CarStatus {
     AVAILABLE("Available"),
+    RESERVED("Reserved"),
     RENTED("Rented"),
     MAINTENANCE("Maintenance"),
     PASSIVE("Passive"),

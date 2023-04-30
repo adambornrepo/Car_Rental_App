@@ -1,5 +1,6 @@
 package com.g4.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.g4.enums.RentalStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -24,6 +25,7 @@ public class FleetRental {
     private Long id;
 
     @NotNull(message = "Car must be provided for rental process")
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
             name = "fleet_car_rental",
@@ -34,6 +36,7 @@ public class FleetRental {
 
 
     @NotNull(message = "Customer must be provided for rental process")
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
     private CorporateCustomer customer;
