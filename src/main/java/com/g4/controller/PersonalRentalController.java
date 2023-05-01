@@ -23,6 +23,14 @@ public class PersonalRentalController {
         this.personalRentalService = personalRentalService;
     }
 
+    @GetMapping
+    public ResponseEntity<List<PersonalRentalDTO>> getAll() {
+
+        List<PersonalRentalDTO> rentals = personalRentalService.getAllRentals();
+
+        return ResponseEntity.ok(rentals);
+    }
+
     @GetMapping("/ongoing")
     public ResponseEntity<List<PersonalRentalDTO>> getAllOngoingRentals() {
 
@@ -38,7 +46,7 @@ public class PersonalRentalController {
         return ResponseEntity.ok(found);
     }
 
-    @GetMapping("/findAll")
+    @GetMapping("/findCurByPer")
     public ResponseEntity<List<PersonalRentalDTO>> getRentalByPerCustomerPhoneNum(@RequestParam("phoneNum") String phoneNum) {
 
         List<PersonalRentalDTO> foundRentals = personalRentalService.getPersonalRentalByPerCustomerPhoneNum(phoneNum);
@@ -51,6 +59,14 @@ public class PersonalRentalController {
         List<PersonalRentalDTO> foundRentals = personalRentalService.getPersonalRentalByReturnDate(returnDate);
         return ResponseEntity.ok(foundRentals);
     }
+
+    @GetMapping("/findByPer")
+    public ResponseEntity<List<PersonalRentalDTO>> getAllPersonalRentalByPerCustomerPhoneNum(@RequestParam("phoneNum") String phoneNum) {
+
+        List<PersonalRentalDTO> foundRentals = personalRentalService.getAllPersonalRentalByPerCustomerPhoneNum(phoneNum);
+        return ResponseEntity.ok(foundRentals);
+    }
+
 
     @PostMapping
     public ResponseEntity<?> createRental(@Valid @RequestBody PersonalRentalDTO personalRentalDTO, BindingResult result) {

@@ -33,6 +33,69 @@ public class PersonalRentalService {
         this.personalRentalRepository = personalRentalRepository;
     }
 
+    public List<PersonalRentalDTO> getAllRentals() {
+
+        List<PersonalRentalDTO> allRentalDTO = new ArrayList<>();
+        personalRentalRepository
+                .findAll()
+                .forEach(personalRental -> allRentalDTO.add(new PersonalRentalDTO(personalRental)));
+
+        return allRentalDTO;
+    }
+
+    public List<PersonalRentalDTO> getAllOngoingRentals() {
+        List<PersonalRentalDTO> allRentalDTO = new ArrayList<>();
+
+        personalRentalRepository
+                .findAllOngoingRentals(RentalStatus.RESERVED, RentalStatus.RENTED)
+                .forEach(personalRental -> allRentalDTO.add(new PersonalRentalDTO(personalRental)));
+
+        return allRentalDTO;
+    }
+
+    public PersonalRentalDTO findPersonalRentalById(Long id) {
+
+        PersonalRental personalRental = personalRentalRepository.
+                findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Personal rental not found with this id : " + id));
+
+        return new PersonalRentalDTO(personalRental);
+    }
+
+    public List<PersonalRentalDTO> getPersonalRentalByPerCustomerPhoneNum(String phoneNum) {
+
+        return getAllOngoingRentals()
+                .stream()
+                .filter(personalRentalDTO -> personalRentalDTO.getCustomer().getPhoneNumber().equals(phoneNum))
+                .toList();
+    }
+
+    public List<PersonalRentalDTO> getAllPersonalRentalByPerCustomerPhoneNum(String phoneNum) {
+
+        List<PersonalRentalDTO> allRentalDTO = new ArrayList<>();
+
+        personalRentalRepository
+                .findAll()
+                .stream()
+                .filter(personalRental -> personalRental.getCustomer().getPhoneNumber().equals(phoneNum))
+                .forEach(personalRental -> allRentalDTO.add(new PersonalRentalDTO(personalRental)));
+
+        return allRentalDTO;
+    }
+
+
+    public List<PersonalRentalDTO> getPersonalRentalByReturnDate(LocalDate returnDate) {
+
+        List<PersonalRentalDTO> allRentalDTOReturnDate = new ArrayList<>();
+
+        personalRentalRepository
+                .findAllByReturnDate(returnDate)
+                .forEach(personalRental -> allRentalDTOReturnDate.add(new PersonalRentalDTO(personalRental)));
+
+        return allRentalDTOReturnDate;
+    }
+
+
 
     public PersonalRentalDTO createPersonalRental(PersonalRentalDTO personalRentalDTO) {
 
@@ -126,49 +189,6 @@ public class PersonalRentalService {
         personalRentalRepository.save(personalRental);
 
         return new PersonalRentalDTO(personalRental);
-    }
-
-    public List<PersonalRentalDTO> getAllOngoingRentals() {
-        List<PersonalRentalDTO> allRentalDTO = new ArrayList<>();
-
-        personalRentalRepository
-                .findAll()
-                .stream()
-                .filter(personalRental -> personalRental.getStatus().equals(RentalStatus.RENTED) || personalRental.getStatus().equals(RentalStatus.RESERVED))
-                .forEach(personalRental -> allRentalDTO.add(new PersonalRentalDTO(personalRental)));
-
-        return allRentalDTO;
-    }
-
-    public PersonalRentalDTO findPersonalRentalById(Long id) {
-
-        PersonalRental personalRental = personalRentalRepository.
-                findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Personal rental not found with this id : " + id));
-
-        return new PersonalRentalDTO(personalRental);
-    }
-
-    public List<PersonalRentalDTO> getPersonalRentalByPerCustomerPhoneNum(String phoneNum) {
-
-        return getAllOngoingRentals()
-                .stream()
-                .filter(personalRentalDTO -> personalRentalDTO.getCustomer().getPhoneNumber().equals(phoneNum))
-                .toList();
-    }
-
-
-    public List<PersonalRentalDTO> getPersonalRentalByReturnDate(LocalDate returnDate) {
-
-        List<PersonalRentalDTO> allRentalDTOReturnDate = new ArrayList<>();
-
-        personalRentalRepository
-                .findAllByReturnDate(returnDate)
-                .stream()
-                .filter(personalRental -> personalRental.getReturnDate().isEqual(returnDate))
-                .forEach(personalRental -> allRentalDTOReturnDate.add(new PersonalRentalDTO(personalRental)));
-
-        return allRentalDTOReturnDate;
     }
 
 

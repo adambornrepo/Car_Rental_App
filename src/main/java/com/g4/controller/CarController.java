@@ -30,6 +30,19 @@ public class CarController {
         return ResponseEntity.ok(cars);
     }
 
+    @GetMapping("/ava")
+    public ResponseEntity<List<CarDTO>> getAllAvailables() {
+        List<CarDTO> cars = carService.getAllAvailables();
+        return ResponseEntity.ok(cars);
+    }
+
+    @GetMapping("/find")
+    public ResponseEntity<CarDTO> getCarById(@RequestParam("plate") String plateNumber) {
+        CarDTO found = carService.findCarByPlateNumber(plateNumber);
+
+        return ResponseEntity.ok(found);
+    }
+
     @PostMapping
     public ResponseEntity<?> addCar(@Valid @RequestBody CarDTO carDTO, BindingResult result) {
 
@@ -46,12 +59,6 @@ public class CarController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @GetMapping("/find")
-    public ResponseEntity<CarDTO> getCarById(@RequestParam("plate") String plateNumber) {
-        CarDTO found = carService.findCarByPlateNumber(plateNumber);
-
-        return ResponseEntity.ok(found);
-    }
 
     @PutMapping("/{plate}")
     public ResponseEntity<?> updateCar(@PathVariable("plate") String plateNumber, @Valid @RequestBody CarDTO carDTO, BindingResult result) {

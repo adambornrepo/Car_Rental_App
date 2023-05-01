@@ -110,4 +110,14 @@ public class CarService {
         carRepository.save(car);
 
     }
+
+    public List<CarDTO> getAllAvailables() {
+
+        List<CarDTO> carDTOList = new ArrayList<>();
+
+        carRepository.findAllAvailables(CarStatus.AVAILABLE).forEach(car -> carDTOList.add(new CarDTO(car)));
+
+        return carDTOList;
+    }
+
 }
