@@ -2,12 +2,17 @@ package com.g4.service;
 
 import com.g4.domain.PersonalCustomer;
 import com.g4.dto.PersonalCustomerDTO;
+import com.g4.dto.PersonalCustomerLoginDTO;
 import com.g4.enums.CustomerStatus;
+import com.g4.exception.IllegalLoginRequestException;
 import com.g4.exception.ResourceNotFoundException;
 import com.g4.exception.UniqueValueAlreadyExistException;
 import com.g4.repository.PersonalCustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class PersonalCustomerService {
@@ -39,7 +44,6 @@ public class PersonalCustomerService {
         personalCustomer.setUsername(personalCustomerDTO.getUsername());
         personalCustomer.setPassword(personalCustomerDTO.getPassword());
         personalCustomer.setLicenseYear(personalCustomerDTO.getLicenseYear());
-
         return personalCustomerRepository.save(personalCustomer);
     }
 
@@ -53,18 +57,18 @@ public class PersonalCustomerService {
 
     public PersonalCustomer findPersonal(String phoneNumber) {
 
-        return personalCustomerRepository.
-                findByPhoneNumber(phoneNumber).
-                orElseThrow(() -> new ResourceNotFoundException("Personal customer with this phone number not found :" + phoneNumber));
+        return personalCustomerRepository
+                .findByPhoneNumber(phoneNumber)
+                .orElseThrow(() -> new ResourceNotFoundException("Personal customer with this phone number not found : " + phoneNumber));
 
     }
 
 
     public void updatePersonalCustomer(String phoneNumber, PersonalCustomerDTO personalCustomerDTO) {
 
-        PersonalCustomer personalCustomer = personalCustomerRepository.
-                findByPhoneNumber(phoneNumber).
-                orElseThrow(() -> new ResourceNotFoundException("Personal customer not found with this phone number : " + phoneNumber));
+        PersonalCustomer personalCustomer = personalCustomerRepository
+                .findByPhoneNumber(phoneNumber)
+                .orElseThrow(() -> new ResourceNotFoundException("Personal customer not found with this phone number : " + phoneNumber));
 
         if (!personalCustomer.getUsername().equals(personalCustomerDTO.getUsername())
                 && personalCustomerRepository.findByUsername(personalCustomerDTO.getUsername()).isPresent()) {
@@ -98,12 +102,45 @@ public class PersonalCustomerService {
 
     public PersonalCustomerDTO findPersonalCustomerByPhoneNumber(String phoneNumber) {
 
-        PersonalCustomer personalCustomer = personalCustomerRepository.
-                findByPhoneNumber(phoneNumber).
-                orElseThrow(() -> new ResourceNotFoundException("Personal customer with this phone number not found :" + phoneNumber));
+        PersonalCustomer personalCustomer = personalCustomerRepository
+                .findByPhoneNumber(phoneNumber)
+                .orElseThrow(() -> new ResourceNotFoundException("Personal customer with this phone number not found :" + phoneNumber));
 
         return new PersonalCustomerDTO(personalCustomer);
 
     }
 
+    public List<PersonalCustomerDTO> getAllPersonalCustomer() {
+        List<PersonalCustomerDTO> allPersonalCustomer = new ArrayList<>();
+
+        personalCustomerRepository
+                .findAll()
+                .forEach(personalCustomer -> allPersonalCustomer.add(new PersonalCustomerDTO(personalCustomer)));
+
+        return allPersonalCustomer;
+    }
+
+
+    public String getPersonalCustomerByUsername(PersonalCustomerLoginDTO loginDTO) {
+        PersonalCustomer personalCustomer = personalCustomerRepository.
+                findByUsername(loginDTO.getUsername()).
+                orElseThrow(() -> new ResourceNotFoundException("Personal customer with this username not found : " + loginDTO.getUsername()));
+
+        if (!personalCustomer.getPassword().equals(loginDTO.getPassword())) {
+            throw new IllegalLoginRequestException("Failed to login. Username and/or password incorrect");
+        }
+
+        return personalCustomer.getName() + " " + personalCustomer.getLastname();
+    }
+
+    public List<PersonalCustomerDTO> getAllActivePersonalCustomer() {
+
+        List<PersonalCustomerDTO> allActivePersonalCustomer = new ArrayList<>();
+
+        personalCustomerRepository
+                .findAllActive(CustomerStatus.AVAILABLE, CustomerStatus.HAS_RENTED)
+                .forEach(personalCustomer -> allActivePersonalCustomer.add(new PersonalCustomerDTO(personalCustomer)));
+
+        return allActivePersonalCustomer;
+    }
 }

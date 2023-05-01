@@ -2,9 +2,6 @@ package com.g4.dto;
 
 import com.g4.domain.PersonalCustomer;
 import com.g4.enums.CustomerStatus;
-import jakarta.persistence.Column;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;

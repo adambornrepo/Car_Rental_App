@@ -59,7 +59,7 @@ public class FleetRental {
     private Double totalPrice;
 
     @Transient
-    private Integer amountOfCars;
+    private Integer amountOfCars = carList.size();
 
     @Lob
     private byte[] agreement;
