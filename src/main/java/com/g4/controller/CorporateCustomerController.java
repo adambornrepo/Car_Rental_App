@@ -3,8 +3,6 @@ package com.g4.controller;
 import com.g4.domain.CorporateCustomer;
 import com.g4.dto.CorporateCustomerDTO;
 import com.g4.dto.CorporateCustomerLoginDTO;
-import com.g4.dto.PersonalCustomerDTO;
-import com.g4.dto.PersonalCustomerLoginDTO;
 import com.g4.service.CorporateCustomerService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

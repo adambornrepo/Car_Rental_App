@@ -15,7 +15,6 @@ import lombok.*;
 
 @Setter
 @Getter
-@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
 public class CarDTO {

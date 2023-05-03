@@ -43,6 +43,7 @@ public class PersonalCustomerService {
         personalCustomer.setPhoneNumber(personalCustomerDTO.getPhoneNumber());
         personalCustomer.setUsername(personalCustomerDTO.getUsername());
         personalCustomer.setPassword(personalCustomerDTO.getPassword());
+        personalCustomer.setBirthdate(personalCustomerDTO.getBirthdate());
         personalCustomer.setLicenseYear(personalCustomerDTO.getLicenseYear());
         return personalCustomerRepository.save(personalCustomer);
     }
@@ -85,6 +86,7 @@ public class PersonalCustomerService {
         personalCustomer.setPhoneNumber(personalCustomerDTO.getPhoneNumber());
         personalCustomer.setUsername(personalCustomerDTO.getUsername());
         personalCustomer.setPassword(personalCustomerDTO.getPassword());
+        personalCustomer.setBirthdate(personalCustomerDTO.getBirthdate());
         personalCustomer.setLicenseYear(personalCustomerDTO.getLicenseYear());
         personalCustomer.setStatus(personalCustomerDTO.getStatus());
 

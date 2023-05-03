@@ -3,6 +3,7 @@ package com.g4.service;
 import com.g4.domain.Car;
 import com.g4.dto.CarDTO;
 import com.g4.enums.CarStatus;
+import com.g4.enums.Department;
 import com.g4.exception.ResourceNotFoundException;
 import com.g4.exception.UniqueValueAlreadyExistException;
 import com.g4.repository.CarRepository;
@@ -120,4 +121,13 @@ public class CarService {
         return carDTOList;
     }
 
+
+    public List<CarDTO> findCarByDepartment(Department department) {
+
+        List<CarDTO> carDTOList = new ArrayList<>();
+
+        carRepository.findAllDepartment(department).forEach(car -> carDTOList.add(new CarDTO(car)));
+
+        return carDTOList;
+    }
 }

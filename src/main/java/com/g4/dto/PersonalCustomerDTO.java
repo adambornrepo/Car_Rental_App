@@ -31,6 +31,9 @@ public class PersonalCustomerDTO {
     @NotBlank(message = "Password cannot be empty")
     private String password;
 
+    @NotNull(message = "Birthdate year cannot be empty")
+    private LocalDate birthdate;
+
     @NotNull(message = "License year cannot be empty")
     private LocalDate licenseYear;
 
@@ -43,6 +46,7 @@ public class PersonalCustomerDTO {
         this.phoneNumber = personalCustomer.getPhoneNumber();
         this.username = personalCustomer.getUsername();
         this.password = personalCustomer.getPassword();
+        this.birthdate = personalCustomer.getBirthdate();
         this.licenseYear = personalCustomer.getLicenseYear();
         this.status = personalCustomer.getStatus();
     }

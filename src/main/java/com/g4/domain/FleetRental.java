@@ -25,7 +25,6 @@ public class FleetRental {
     private Long id;
 
     @NotNull(message = "Car must be provided for rental process")
-    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
             name = "fleet_car_rental",
@@ -59,7 +58,7 @@ public class FleetRental {
     private Double totalPrice;
 
     @Transient
-    private Integer amountOfCars = carList.size();
+    private Integer numberOfCars = carList.size();
 
     @Lob
     private byte[] agreement;

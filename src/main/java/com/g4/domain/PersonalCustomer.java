@@ -28,6 +28,11 @@ public class PersonalCustomer extends Customer {
     @Transient
     private Integer age;
 
+    @NotNull(message = "Birthdate should be selected")
+    @Column(nullable = false)
+    private LocalDate birthdate;
+
+    @NotNull(message = "LicenseYear should be selected")
     @Column(nullable = false)
     private LocalDate licenseYear;
 

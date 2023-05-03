@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/per") //localhost:8080/per
+@RequestMapping("/per")
 public class PersonalCustomerController {
 
     private PersonalCustomerService personalCustomerService;
@@ -43,7 +43,7 @@ public class PersonalCustomerController {
 
 
     @GetMapping("/{phoneNum}")
-    public ResponseEntity<PersonalCustomerDTO> getPersonalCustomerById(@PathVariable("phoneNum") String phoneNumber) {
+    public ResponseEntity<PersonalCustomerDTO> getPersonalCustomerByPhoneNum(@PathVariable("phoneNum") String phoneNumber) {
 
         PersonalCustomerDTO found = personalCustomerService.findPersonalCustomerByPhoneNumber(phoneNumber);
         return ResponseEntity.ok(found);

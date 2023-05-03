@@ -1,6 +1,7 @@
 package com.g4.controller;
 
 import com.g4.dto.CarDTO;
+import com.g4.enums.Department;
 import com.g4.service.CarService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,13 @@ public class CarController {
         CarDTO found = carService.findCarByPlateNumber(plateNumber);
 
         return ResponseEntity.ok(found);
+    }
+
+    @GetMapping("/findAll")
+    public ResponseEntity<List<CarDTO>> getCarById(@RequestParam("dept") Department department) {
+        List<CarDTO> carDTOList = carService.findCarByDepartment(department);
+
+        return ResponseEntity.ok(carDTOList);
     }
 
     @PostMapping

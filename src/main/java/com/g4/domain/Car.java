@@ -1,6 +1,7 @@
 package com.g4.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.g4.enums.CarType;
 import com.g4.enums.Department;
 import com.g4.enums.FuelType;
@@ -90,6 +91,7 @@ public class Car {
     @OneToMany(mappedBy = "car", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<PersonalRental> personalRentalList = new ArrayList<>();
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "carList", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<FleetRental> fleetRentalList = new ArrayList<>();
 
