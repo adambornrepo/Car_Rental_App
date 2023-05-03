@@ -38,14 +38,14 @@ public class CarController {
     }
 
     @GetMapping("/find")
-    public ResponseEntity<CarDTO> getCarById(@RequestParam("plate") String plateNumber) {
+    public ResponseEntity<CarDTO> getCarByPlateNumber(@RequestParam("plate") String plateNumber) {
         CarDTO found = carService.findCarByPlateNumber(plateNumber);
 
         return ResponseEntity.ok(found);
     }
 
     @GetMapping("/findAll")
-    public ResponseEntity<List<CarDTO>> getCarById(@RequestParam("dept") Department department) {
+    public ResponseEntity<List<CarDTO>> getCarByDepartment(@RequestParam("dept") Department department) {
         List<CarDTO> carDTOList = carService.findCarByDepartment(department);
 
         return ResponseEntity.ok(carDTOList);
