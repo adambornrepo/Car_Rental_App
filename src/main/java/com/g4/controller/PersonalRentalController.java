@@ -109,5 +109,13 @@ public class PersonalRentalController {
         return ResponseEntity.ok("Personal rental successfully canceled");
     }
 
+    @PutMapping("/comp/{id}")
+    public ResponseEntity<?> returnPersonalRental(@PathVariable Long id) {
+        
+        personalRentalService.returnRental(id);
+
+        return ResponseEntity.ok("Personal rental successfully completed");
+    }
+
 
 }

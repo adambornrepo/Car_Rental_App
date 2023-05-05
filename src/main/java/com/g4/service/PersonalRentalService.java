@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Service
 public class PersonalRentalService {
@@ -32,6 +33,8 @@ public class PersonalRentalService {
         this.personalCustomerService = personalCustomerService;
         this.personalRentalRepository = personalRentalRepository;
     }
+
+    Logger logger = Logger.getLogger(PersonalRentalService.class.getName());
 
     public List<PersonalRentalDTO> getAllRentals() {
 
@@ -96,7 +99,6 @@ public class PersonalRentalService {
     }
 
 
-
     public PersonalRentalDTO createPersonalRental(PersonalRentalDTO personalRentalDTO) {
 
         CarDTO car = personalRentalDTO.getCar();
@@ -150,6 +152,15 @@ public class PersonalRentalService {
             foundPersonalRental.setStatus(RentalStatus.CANCELLED);
             updatePersonalRental(id, foundPersonalRental);
 
+            CarDTO foundCar = foundPersonalRental.getCar();
+            foundCar.setStatus(CarStatus.AVAILABLE);
+            carService.updateCar(foundCar.getPlateNumber(),foundCar);
+
+            PersonalCustomerDTO foundCustomer = foundPersonalRental.getCustomer();
+            foundCustomer.setStatus(CustomerStatus.AVAILABLE);
+            personalCustomerService.updatePersonalCustomer(foundCustomer.getPhoneNumber(),foundCustomer);
+
+
         } else {
             throw new StatusMismatchException("Rental cannot be cancelled. Because the rental : " + foundPersonalRental.getStatus());
         }
@@ -171,28 +182,53 @@ public class PersonalRentalService {
             throw new StatusMismatchException("Personal rental cannot be updated with this car. Because car is  : " + status);
         }
 
+
         if (!personalRental.getCar().getPlateNumber().equals(carUpdated.getPlateNumber())) {
+
+            carUpdated.setStatus(personalRental.getCar().getStatus());
+            carService.updateCar(carUpdated.getPlateNumber(), carUpdated);
 
             CarDTO car = new CarDTO(personalRental.getCar());
             car.setStatus(CarStatus.AVAILABLE);
             carService.updateCar(car.getPlateNumber(), car);
 
-            carUpdated.setStatus(CarStatus.RENTED);
-            carService.updateCar(carUpdated.getPlateNumber(), carUpdated);
         }
+
+
+
+
 
         personalRental.setCar(carService.findCar(carUpdated.getPlateNumber()));
         personalRental.setCustomer(personalCustomerService.findPersonal(customerUpdate.getPhoneNumber()));
         personalRental.setReturnDate(rentalDTO.getReturnDate());
         personalRental.setReturnDate(rentalDTO.getReturnDate());
+        personalRental.setStatus(rentalDTO.getStatus());// FIXME: 5.05.2023
 
         personalRentalRepository.save(personalRental);
 
         return new PersonalRentalDTO(personalRental);
     }
 
-    public void returnRental(Long id){
-        PersonalRentalDTO personalRentalById = findPersonalRentalById(id);
+    public void returnRental(Long id) {
+        PersonalRentalDTO foundPersonalRental = findPersonalRentalById(id);
+
+        if (foundPersonalRental.getStatus().equals(RentalStatus.RENTED)) {
+
+            foundPersonalRental.setStatus(RentalStatus.COMPLETED);
+            updatePersonalRental(id, foundPersonalRental);
+
+            CarDTO foundCar = foundPersonalRental.getCar();
+            foundCar.setStatus(CarStatus.AVAILABLE);
+            carService.updateCar(foundCar.getPlateNumber(),foundCar);
+
+            PersonalCustomerDTO foundCustomer = foundPersonalRental.getCustomer();
+            foundCustomer.setStatus(CustomerStatus.AVAILABLE);
+            personalCustomerService.updatePersonalCustomer(foundCustomer.getPhoneNumber(),foundCustomer);
+
+
+        } else {
+            throw new StatusMismatchException("Rental cannot be completed. Because the rental : " + foundPersonalRental.getStatus());
+        }
 
 
     }
