@@ -1,5 +1,6 @@
 package com.g4.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.g4.domain.Car;
 import com.g4.domain.CorporateCustomer;
@@ -30,6 +31,7 @@ public class FleetRentalDTO {
     @NotNull(message = "Customer must be provided for rental process")
     private CorporateCustomer customer;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @NotNull(message = "Return date must be provided")
     private LocalDate returnDate;
 

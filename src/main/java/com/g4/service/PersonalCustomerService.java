@@ -4,6 +4,7 @@ import com.g4.domain.PersonalCustomer;
 import com.g4.dto.PersonalCustomerDTO;
 import com.g4.dto.PersonalCustomerLoginDTO;
 import com.g4.enums.CustomerStatus;
+import com.g4.exception.IllegalInputException;
 import com.g4.exception.IllegalLoginRequestException;
 import com.g4.exception.ResourceNotFoundException;
 import com.g4.exception.UniqueValueAlreadyExistException;
@@ -33,6 +34,10 @@ public class PersonalCustomerService {
             throw new UniqueValueAlreadyExistException("Username is already registered");
         } else if (existsByPhoneNumber) {
             throw new UniqueValueAlreadyExistException("This phone number is already registered");
+        } else if (personalCustomerDTO.getAge() < 20) {
+            throw new IllegalInputException("Personal customer cannot be under 20 years old");
+        } else if (personalCustomerDTO.isValidLicenseYear()) {
+            throw  new IllegalInputException("License must be at least two years");
         }
 
 

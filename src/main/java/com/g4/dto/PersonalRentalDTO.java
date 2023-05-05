@@ -1,5 +1,6 @@
 package com.g4.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.g4.domain.PersonalRental;
 import com.g4.enums.RentalStatus;
 import jakarta.persistence.*;
@@ -22,6 +23,7 @@ public class PersonalRentalDTO {
     @NotNull(message = "Customer must be provided for rental process")
     private PersonalCustomerDTO customer;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @NotNull(message = "Return date must be provided")
     private LocalDate returnDate;
 

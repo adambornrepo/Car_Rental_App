@@ -1,5 +1,6 @@
 package com.g4.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.g4.domain.Address;
 import com.g4.domain.Employee;
 import com.g4.enums.Position;
@@ -25,6 +26,7 @@ public class EmployeeDTO {
     @NotBlank(message = "Employee lastname cannot be empty")
     private String lastname;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @NotBlank(message = "Birthdate cannot be null")
     private LocalDate birthdate;
 

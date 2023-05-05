@@ -191,5 +191,11 @@ public class PersonalRentalService {
         return new PersonalRentalDTO(personalRental);
     }
 
+    public void returnRental(Long id){
+        PersonalRentalDTO personalRentalById = findPersonalRentalById(id);
+
+
+    }
+
 
 }
