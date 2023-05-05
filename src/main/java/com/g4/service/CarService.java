@@ -130,4 +130,12 @@ public class CarService {
 
         return carDTOList;
     }
+
+    public List<CarDTO> findCarAvaDept(Department department) {
+
+        return getAllAvailables()
+                .stream()
+                .filter(carDTO -> carDTO.getDepartment().equals(department))
+                .toList();
+    }
 }

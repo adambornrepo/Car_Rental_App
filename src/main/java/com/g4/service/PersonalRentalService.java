@@ -36,7 +36,7 @@ public class PersonalRentalService {
 
     Logger logger = Logger.getLogger(PersonalRentalService.class.getName());
 
-    public List<PersonalRentalDTO> getAllRentals() {
+    public List<PersonalRentalDTO> getAllRentals() {//For staff
 
         List<PersonalRentalDTO> allRentalDTO = new ArrayList<>();
         personalRentalRepository
@@ -46,7 +46,7 @@ public class PersonalRentalService {
         return allRentalDTO;
     }
 
-    public List<PersonalRentalDTO> getAllOngoingRentals() {
+    public List<PersonalRentalDTO> getAllOngoingRentals() {// For staff
         List<PersonalRentalDTO> allRentalDTO = new ArrayList<>();
 
         personalRentalRepository
@@ -56,7 +56,7 @@ public class PersonalRentalService {
         return allRentalDTO;
     }
 
-    public PersonalRentalDTO findPersonalRentalById(Long id) {
+    public PersonalRentalDTO findPersonalRentalById(Long id) {//PerCustomer
 
         PersonalRental personalRental = personalRentalRepository.
                 findById(id)
@@ -65,7 +65,7 @@ public class PersonalRentalService {
         return new PersonalRentalDTO(personalRental);
     }
 
-    public List<PersonalRentalDTO> getPersonalRentalByPerCustomerPhoneNum(String phoneNum) {
+    public List<PersonalRentalDTO> getPersonalRentalByPerCustomerPhoneNum(String phoneNum) {//PerCustomer
 
         return getAllOngoingRentals()
                 .stream()
@@ -73,7 +73,7 @@ public class PersonalRentalService {
                 .toList();
     }
 
-    public List<PersonalRentalDTO> getAllPersonalRentalByPerCustomerPhoneNum(String phoneNum) {
+    public List<PersonalRentalDTO> getAllPersonalRentalByPerCustomerPhoneNum(String phoneNum) {//PerCustomer - Staff
 
         List<PersonalRentalDTO> allRentalDTO = new ArrayList<>();
 
@@ -87,7 +87,7 @@ public class PersonalRentalService {
     }
 
 
-    public List<PersonalRentalDTO> getPersonalRentalByReturnDate(LocalDate returnDate) {
+    public List<PersonalRentalDTO> getPersonalRentalByReturnDate(LocalDate returnDate) {//Staff
 
         List<PersonalRentalDTO> allRentalDTOReturnDate = new ArrayList<>();
 
@@ -99,7 +99,7 @@ public class PersonalRentalService {
     }
 
 
-    public PersonalRentalDTO createPersonalRental(PersonalRentalDTO personalRentalDTO) {
+    public PersonalRentalDTO createPersonalRental(PersonalRentalDTO personalRentalDTO) {//PerCustomer
 
         CarDTO car = personalRentalDTO.getCar();
         PersonalCustomerDTO personalCustomer = personalRentalDTO.getCustomer();
@@ -130,7 +130,7 @@ public class PersonalRentalService {
         } else if (personalRentalDTO.getStatus().equals(RentalStatus.RESERVED)) {
             car.setStatus(CarStatus.RESERVED);
         } else {
-            throw new StatusMismatchException("this status cannot be used when creating a rental : " + personalRentalDTO.getStatus());
+            throw new StatusMismatchException("This status cannot be used when creating a rental : " + personalRentalDTO.getStatus());
         }
 
 
@@ -143,7 +143,7 @@ public class PersonalRentalService {
 
     }
 
-    public void cancelPersonalRental(Long id) {
+    public void cancelPersonalRental(Long id) {//PerCustomer
 
         PersonalRentalDTO foundPersonalRental = findPersonalRentalById(id);
 
@@ -167,7 +167,7 @@ public class PersonalRentalService {
 
     }
 
-    public PersonalRentalDTO updatePersonalRental(Long id, PersonalRentalDTO rentalDTO) {
+    public PersonalRentalDTO updatePersonalRental(Long id, PersonalRentalDTO rentalDTO) {//PerCustomer
 
         PersonalRental personalRental = personalRentalRepository.
                 findById(id).
@@ -209,7 +209,7 @@ public class PersonalRentalService {
         return new PersonalRentalDTO(personalRental);
     }
 
-    public void returnRental(Long id) {
+    public void returnRental(Long id) {//PerCustomer
         PersonalRentalDTO foundPersonalRental = findPersonalRentalById(id);
 
         if (foundPersonalRental.getStatus().equals(RentalStatus.RENTED)) {

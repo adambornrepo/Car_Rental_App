@@ -26,10 +26,10 @@ public class FleetRentalDTO {
     private Long id;
 
     @NotNull(message = "Car must be provided for rental process")
-    private List<Car> carList = new ArrayList<>();
+    private List<CarDTO> carList = new ArrayList<>();
 
     @NotNull(message = "Customer must be provided for rental process")
-    private CorporateCustomer customer;
+    private CorporateCustomerDTO customer;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @NotNull(message = "Return date must be provided")
@@ -46,8 +46,8 @@ public class FleetRentalDTO {
 
     public FleetRentalDTO(FleetRental fleetRental) {
         this.id = fleetRental.getId();
-        this.carList = fleetRental.getCarList();
-        this.customer = fleetRental.getCustomer();
+        this.carList = fleetRental.toCarDTO();
+        this.customer = new CorporateCustomerDTO(fleetRental.getCustomer());
         this.returnDate = fleetRental.getReturnDate();
         this.status = fleetRental.getStatus();
         this.totalPrice = fleetRental.getTotalPrice();

@@ -1,6 +1,7 @@
 package com.g4.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.g4.dto.CarDTO;
 import com.g4.enums.RentalStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -58,8 +59,15 @@ public class FleetRental {
     private Double totalPrice;
 
     @Transient
+    @Setter(AccessLevel.NONE)
     private Integer numberOfCars = carList.size();
 
     @Lob
     private byte[] agreement;
+
+    public List<CarDTO> toCarDTO() {
+        List<CarDTO> carDTO = new ArrayList<>();
+        carList.forEach(car -> carDTO.add(new CarDTO(car)));
+        return carDTO;
+    }
 }
