@@ -1,7 +1,7 @@
 package com.g4.controller;
 
+import com.g4.dto.FleetRentalCreateDTO;
 import com.g4.dto.FleetRentalDTO;
-import com.g4.dto.PersonalRentalDTO;
 import com.g4.service.FleetRentalService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,29 +24,29 @@ public class FleetRentalController {
     }
 
     @GetMapping
-    public ResponseEntity<List<FleetRentalDTO>> getAll() {
+    public ResponseEntity<List<FleetRentalDTO>> getAll() { // Staff
 
         List<FleetRentalDTO> rentals = fleetRentalService.getAllRentals();
 
         return ResponseEntity.ok(rentals);
     }
 
-    @GetMapping("/find")
+    @GetMapping("/find") // Staff
     public ResponseEntity<FleetRentalDTO> getRentalById(@RequestParam("id") Long id) {
 
         FleetRentalDTO found = fleetRentalService.findFleetRentalById(id);
         return ResponseEntity.ok(found);
     }
 
-    @GetMapping("/findCurByCorp")
+    @GetMapping("/findCurByCorp") // Staff - CorpCustomer
     public ResponseEntity<List<FleetRentalDTO>> getRentalByCorpCustomerPhoneNum(@RequestParam("phoneNum") String phoneNum) {
 
         List<FleetRentalDTO> foundRentals = fleetRentalService.getCorpRentalByPhoneNum(phoneNum);
         return ResponseEntity.ok(foundRentals);
     }
 
-    @PostMapping
-    public ResponseEntity<?> createRental(@Valid @RequestBody FleetRentalDTO fleetRentalDTO, BindingResult result) {
+    @PostMapping // Staff
+    public ResponseEntity<?> createRental(@Valid @RequestBody FleetRentalCreateDTO fleetRentalDTO, BindingResult result) {
 
         if (result.hasErrors()) {
             return ResponseEntity.badRequest().body("Invalid input");
@@ -59,6 +59,14 @@ public class FleetRentalController {
         }
 
         return ResponseEntity.status(HttpStatus.CREATED).body(rentalDTO);
+    }
+
+    @PutMapping("/comp/{id}") //  Staff
+    public ResponseEntity<?> returnFleetRental(@PathVariable Long id) {
+
+        fleetRentalService.returnRental(id);
+
+        return ResponseEntity.ok("Fleet rental successfully completed");
     }
 
 

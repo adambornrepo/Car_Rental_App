@@ -24,7 +24,7 @@ public class PersonalCustomerController {
         this.personalCustomerService = personalCustomerService;
     }
 
-    @PostMapping("/signup")
+    @PostMapping("/signup")  //PerCustomer
     public ResponseEntity<?> signUp(@Valid @RequestBody PersonalCustomerDTO personalCustomerDTO, BindingResult result) {
 
         if (result.hasErrors()) {
@@ -42,7 +42,7 @@ public class PersonalCustomerController {
     }
 
 
-    @GetMapping("/{phoneNum}")
+    @GetMapping("/{phoneNum}") //PerCustomer - Staff
     public ResponseEntity<PersonalCustomerDTO> getPersonalCustomerByPhoneNum(@PathVariable("phoneNum") String phoneNumber) {
 
         PersonalCustomerDTO found = personalCustomerService.findPersonalCustomerByPhoneNumber(phoneNumber);
@@ -51,7 +51,7 @@ public class PersonalCustomerController {
     }
 
 
-    @PutMapping("/{phoneNum}")
+    @PutMapping("/{phoneNum}") //PerCustomer - Staff
     public ResponseEntity<?> updatePersonalCustomer(@PathVariable("phoneNum") String phoneNumber, @Valid @RequestBody PersonalCustomerDTO personalCustomerDTO, BindingResult result) {
 
         if (result.hasErrors()) {
@@ -64,7 +64,7 @@ public class PersonalCustomerController {
     }
 
 
-    @DeleteMapping("/{phoneNum}")
+    @DeleteMapping("/{phoneNum}") //PerCustomer - Staff
     public ResponseEntity<?> deletePersonalCustomer(@PathVariable("phoneNum") String phoneNumber) {
 
         personalCustomerService.deletePersonalCustomer(phoneNumber);
@@ -73,14 +73,14 @@ public class PersonalCustomerController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getAllPersonalCustomer() {
+    public ResponseEntity<?> getAllPersonalCustomer() { // Staff
 
         List<PersonalCustomerDTO> personalCustomerList = personalCustomerService.getAllPersonalCustomer();
 
         return ResponseEntity.ok(personalCustomerList);
     }
 
-    @GetMapping("allActive")
+    @GetMapping("allActive")  // Staff
     public ResponseEntity<?> getAllActivePersonalCustomer() {
 
         List<PersonalCustomerDTO> personalCustomerList = personalCustomerService.getAllActivePersonalCustomer();
@@ -88,7 +88,7 @@ public class PersonalCustomerController {
         return ResponseEntity.ok(personalCustomerList);
     }
 
-    @GetMapping("/login")
+    @GetMapping("/login") //PerCustomer
     public ResponseEntity<?> getPersonalCustomerByUsername(@Valid @RequestBody PersonalCustomerLoginDTO loginDTO, BindingResult result) {
 
         if (result.hasErrors()) {

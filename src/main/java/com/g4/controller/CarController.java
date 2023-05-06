@@ -26,33 +26,40 @@ public class CarController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CarDTO>> getAll() {
+    public ResponseEntity<List<CarDTO>> getAll() {//Staff
         List<CarDTO> cars = carService.getAll();
         return ResponseEntity.ok(cars);
     }
 
     @GetMapping("/ava")
-    public ResponseEntity<List<CarDTO>> getAllAvailables() {
+    public ResponseEntity<List<CarDTO>> getAllAvailables() {//Staff
         List<CarDTO> cars = carService.getAllAvailables();
         return ResponseEntity.ok(cars);
     }
 
     @GetMapping("/find")
-    public ResponseEntity<CarDTO> getCarByPlateNumber(@RequestParam("plate") String plateNumber) {
+    public ResponseEntity<CarDTO> getCarByPlateNumber(@RequestParam("plate") String plateNumber) {//Staff
         CarDTO found = carService.findCarByPlateNumber(plateNumber);
 
         return ResponseEntity.ok(found);
     }
 
     @GetMapping("/findAll")
-    public ResponseEntity<List<CarDTO>> getCarByDepartment(@RequestParam("dept") Department department) {
+    public ResponseEntity<List<CarDTO>> getCarByDepartment(@RequestParam("dept") Department department) {//Staff
         List<CarDTO> carDTOList = carService.findCarByDepartment(department);
 
         return ResponseEntity.ok(carDTOList);
     }
 
+    @GetMapping("/findAva")
+    public ResponseEntity<List<CarDTO>> getAllAvaCarByDepartment(@RequestParam("dept") Department department) {//Staff - Customer(s)
+        List<CarDTO> carDTOList = carService.findCarAvaDept(department);
+
+        return ResponseEntity.ok(carDTOList);
+    }
+
     @PostMapping
-    public ResponseEntity<?> addCar(@Valid @RequestBody CarDTO carDTO, BindingResult result) {
+    public ResponseEntity<?> addCar(@Valid @RequestBody CarDTO carDTO, BindingResult result) {//Staff
 
         if (result.hasErrors()) {
             return ResponseEntity.badRequest().body("Invalid input");
@@ -68,7 +75,7 @@ public class CarController {
     }
 
 
-    @PutMapping("/{plate}")
+    @PutMapping("/{plate}")  //Staff
     public ResponseEntity<?> updateCar(@PathVariable("plate") String plateNumber, @Valid @RequestBody CarDTO carDTO, BindingResult result) {
 
         if (result.hasErrors()) {
@@ -81,7 +88,7 @@ public class CarController {
     }
 
     @DeleteMapping("/{plate}")
-    public ResponseEntity<Map<String, String>> deleteCar(@PathVariable("plate") String plateNumber) {
+    public ResponseEntity<Map<String, String>> deleteCar(@PathVariable("plate") String plateNumber) { //Staff
 
         carService.deleteCar(plateNumber);
 

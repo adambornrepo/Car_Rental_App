@@ -25,7 +25,7 @@ public class CorporateCustomerController {
 
 
     @GetMapping("/{phoneNum}")
-    public ResponseEntity<CorporateCustomerDTO> getCorporateCustomerByPhoneNum(@PathVariable("phoneNum") String phoneNumber) {
+    public ResponseEntity<CorporateCustomerDTO> getCorporateCustomerByPhoneNum(@PathVariable("phoneNum") String phoneNumber) { // Staff - CorpCustomer
 
         CorporateCustomerDTO found = corporateCustomerService.findCorporateCustomerByPhoneNumber(phoneNumber);
         return ResponseEntity.ok(found);
@@ -34,7 +34,7 @@ public class CorporateCustomerController {
 
 
     @GetMapping
-    public ResponseEntity<?> getAllCorporateCustomer() {
+    public ResponseEntity<?> getAllCorporateCustomer() { // Staff
 
         List<CorporateCustomerDTO> corporateCustomerDTOList = corporateCustomerService.getAllCorporateCustomer();
 
@@ -42,14 +42,14 @@ public class CorporateCustomerController {
     }
 
     @GetMapping("allActive")
-    public ResponseEntity<?> getAllActiveCorporateCustomer() {
+    public ResponseEntity<?> getAllActiveCorporateCustomer() {  //Staff
 
         List<CorporateCustomerDTO> corporateCustomerDTOList = corporateCustomerService.getAllActiveCorporateCustomer();
 
         return ResponseEntity.ok(corporateCustomerDTOList);
     }
 
-    @GetMapping("/login")
+    @GetMapping("/login")  //CorpCustomer
     public ResponseEntity<?> getCorporateCustomerByUsername(@Valid @RequestBody CorporateCustomerLoginDTO loginDTO, BindingResult result) {
 
         if (result.hasErrors()) {
@@ -64,7 +64,7 @@ public class CorporateCustomerController {
 
 
     @PostMapping("/signup")
-    public ResponseEntity<?> signUp(@Valid @RequestBody CorporateCustomerDTO corporateCustomerDTO, BindingResult result) {
+    public ResponseEntity<?> signUp(@Valid @RequestBody CorporateCustomerDTO corporateCustomerDTO, BindingResult result) { // Staff
 
         if (result.hasErrors()) {
             return ResponseEntity.badRequest().body("Invalid input");
@@ -79,7 +79,7 @@ public class CorporateCustomerController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Corporate customer created successfully");
     }
 
-    @PutMapping("/{phoneNum}")
+    @PutMapping("/{phoneNum}")  // CorpCustomer - Staff
     public ResponseEntity<?> updateCorporateCustomer(@PathVariable("phoneNum") String phoneNumber, @Valid @RequestBody CorporateCustomerDTO corporateCustomerDTO, BindingResult result) {
 
         if (result.hasErrors()) {
@@ -92,7 +92,7 @@ public class CorporateCustomerController {
     }
 
 
-    @DeleteMapping("/{phoneNum}")
+    @DeleteMapping("/{phoneNum}") // CorpCustomer - Staff
     public ResponseEntity<?> deleteCorporateCustomer(@PathVariable("phoneNum") String phoneNumber) {
 
         corporateCustomerService.deleteCorporateCustomer(phoneNumber);

@@ -54,14 +54,14 @@ public class CarService {
         carRepository.save(car);
     }
 
-
-    public CarDTO findCarById(Long id) {
-        Car car = carRepository.
-                findById(id).
-                orElseThrow(() -> new ResourceNotFoundException("Car not found with this id : " + id));
-
-        return new CarDTO(car);
-    }
+//  Car controller use plateNum not ID anymore
+//    public CarDTO findCarById(Long id) {
+//        Car car = carRepository.
+//                findById(id).
+//                orElseThrow(() -> new ResourceNotFoundException("Car not found with this id : " + id));
+//
+//        return new CarDTO(car);
+//    }
 
     public CarDTO findCarByPlateNumber(String plateNumber) {
         Car car = carRepository.

@@ -1,5 +1,6 @@
 package com.g4.controller;
 
+import com.g4.dto.PerRentalCreateUpdateDTO;
 import com.g4.dto.PersonalRentalDTO;
 import com.g4.service.PersonalRentalService;
 import jakarta.validation.Valid;
@@ -24,7 +25,7 @@ public class PersonalRentalController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PersonalRentalDTO>> getAll() {
+    public ResponseEntity<List<PersonalRentalDTO>> getAll() { //Staff
 
         List<PersonalRentalDTO> rentals = personalRentalService.getAllRentals();
 
@@ -32,7 +33,7 @@ public class PersonalRentalController {
     }
 
     @GetMapping("/ongoing")
-    public ResponseEntity<List<PersonalRentalDTO>> getAllOngoingRentals() {
+    public ResponseEntity<List<PersonalRentalDTO>> getAllOngoingRentals() { //Staff
 
         List<PersonalRentalDTO> rentals = personalRentalService.getAllOngoingRentals();
 
@@ -40,27 +41,27 @@ public class PersonalRentalController {
     }
 
     @GetMapping("/find")
-    public ResponseEntity<PersonalRentalDTO> getRentalById(@RequestParam("id") Long id) {
+    public ResponseEntity<PersonalRentalDTO> getRentalById(@RequestParam("id") Long id) {  //  Staff - PerCustomer
 
         PersonalRentalDTO found = personalRentalService.findPersonalRentalById(id);
         return ResponseEntity.ok(found);
     }
 
-    @GetMapping("/findCurByPer")
+    @GetMapping("/findCurByPer") //  Staff - PerCustomer
     public ResponseEntity<List<PersonalRentalDTO>> getRentalByPerCustomerPhoneNum(@RequestParam("phoneNum") String phoneNum) {
 
         List<PersonalRentalDTO> foundRentals = personalRentalService.getPersonalRentalByPerCustomerPhoneNum(phoneNum);
         return ResponseEntity.ok(foundRentals);
     }
 
-    @GetMapping("/return")
+    @GetMapping("/return") //  Staff
     public ResponseEntity<List<PersonalRentalDTO>> getPersonalRentalByReturnDate(@RequestParam("date") LocalDate returnDate) {
 
         List<PersonalRentalDTO> foundRentals = personalRentalService.getPersonalRentalByReturnDate(returnDate);
         return ResponseEntity.ok(foundRentals);
     }
 
-    @GetMapping("/findByPer")
+    @GetMapping("/findByPer") //  Staff - PerCustomer
     public ResponseEntity<List<PersonalRentalDTO>> getAllPersonalRentalByPerCustomerPhoneNum(@RequestParam("phoneNum") String phoneNum) {
 
         List<PersonalRentalDTO> foundRentals = personalRentalService.getAllPersonalRentalByPerCustomerPhoneNum(phoneNum);
@@ -68,14 +69,14 @@ public class PersonalRentalController {
     }
 
 
-    @PostMapping
-    public ResponseEntity<?> createRental(@Valid @RequestBody PersonalRentalDTO personalRentalDTO, BindingResult result) {
+    @PostMapping // PerCustomer
+    public ResponseEntity<?> createRental(@Valid @RequestBody PerRentalCreateUpdateDTO perRentalCreateUpdateDTO, BindingResult result) {
 
         if (result.hasErrors()) {
             return ResponseEntity.badRequest().body("Invalid input");
         }
 
-        PersonalRentalDTO rentalDTO = personalRentalService.createPersonalRental(personalRentalDTO);
+        PersonalRentalDTO rentalDTO = personalRentalService.createPersonalRental(perRentalCreateUpdateDTO);
 
         if (rentalDTO == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Could not create rental");
@@ -84,8 +85,8 @@ public class PersonalRentalController {
         return ResponseEntity.status(HttpStatus.CREATED).body(rentalDTO);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updatePersonalRental(@PathVariable Long id, @RequestBody PersonalRentalDTO rentalDTO, BindingResult result) {
+    @PutMapping("/{id}") //  PerCustomer
+    public ResponseEntity<?> updatePersonalRental(@PathVariable Long id, @RequestBody PerRentalCreateUpdateDTO rentalDTO, BindingResult result) {
 
         if (result.hasErrors()) {
             return ResponseEntity.badRequest().body("Invalid input");
@@ -101,7 +102,7 @@ public class PersonalRentalController {
     }
 
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}") // PerCustomer
     public ResponseEntity<?> cancelRental(@PathVariable Long id) {
 
         personalRentalService.cancelPersonalRental(id);
@@ -109,9 +110,9 @@ public class PersonalRentalController {
         return ResponseEntity.ok("Personal rental successfully canceled");
     }
 
-    @PutMapping("/comp/{id}")
+    @PutMapping("/comp/{id}") //  Staff
     public ResponseEntity<?> returnPersonalRental(@PathVariable Long id) {
-        
+
         personalRentalService.returnRental(id);
 
         return ResponseEntity.ok("Personal rental successfully completed");

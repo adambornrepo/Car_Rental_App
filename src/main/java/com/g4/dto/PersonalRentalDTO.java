@@ -38,4 +38,16 @@ public class PersonalRentalDTO {
         this.status = personalRental.getStatus();
     }
 
+    public PerRentalCreateUpdateDTO toPerRentalCreateUpdateDTO() {
+
+        PerRentalCreateUpdateDTO createUpdateDTO = new PerRentalCreateUpdateDTO();
+
+        createUpdateDTO.setStatus(status);
+        createUpdateDTO.setReturnDate(returnDate);
+        createUpdateDTO.setCarPlateNum(car.getPlateNumber());
+        createUpdateDTO.setCustomerPhoneNum(customer.getPhoneNumber());
+
+        return createUpdateDTO;
+    }
+
 }

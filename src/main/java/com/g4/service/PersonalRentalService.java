@@ -2,6 +2,7 @@ package com.g4.service;
 
 import com.g4.domain.PersonalRental;
 import com.g4.dto.CarDTO;
+import com.g4.dto.PerRentalCreateUpdateDTO;
 import com.g4.dto.PersonalCustomerDTO;
 import com.g4.dto.PersonalRentalDTO;
 import com.g4.enums.CarStatus;
@@ -99,14 +100,10 @@ public class PersonalRentalService {
     }
 
 
-    public PersonalRentalDTO createPersonalRental(PersonalRentalDTO personalRentalDTO) {//PerCustomer
+    public PersonalRentalDTO createPersonalRental(PerRentalCreateUpdateDTO perRentalCreateUpdateDTO) {//PerCustomer
 
-        CarDTO car = personalRentalDTO.getCar();
-        PersonalCustomerDTO personalCustomer = personalRentalDTO.getCustomer();
-
-        if (car == null || personalCustomer == null) {
-            throw new ResourceNotFoundException("All fields must be provided");
-        }
+        CarDTO car = new CarDTO(carService.findCar(perRentalCreateUpdateDTO.getCarPlateNum()));
+        PersonalCustomerDTO personalCustomer = new PersonalCustomerDTO(personalCustomerService.findPersonal(perRentalCreateUpdateDTO.getCustomerPhoneNum()));
 
         if (!car.getStatus().equals(CarStatus.AVAILABLE)) {
             throw new StatusMismatchException("Car is not available for rental");
@@ -120,17 +117,17 @@ public class PersonalRentalService {
 
         personalRental.setCar(carService.findCar(car.getPlateNumber()));
         personalRental.setCustomer(personalCustomerService.findPersonal(personalCustomer.getPhoneNumber()));
-        personalRental.setReturnDate(personalRentalDTO.getReturnDate());
-        personalRental.setStatus(personalRentalDTO.getStatus());
+        personalRental.setReturnDate(perRentalCreateUpdateDTO.getReturnDate());
+        personalRental.setStatus(perRentalCreateUpdateDTO.getStatus());
 
         personalRentalRepository.save(personalRental);
 
-        if (personalRentalDTO.getStatus().equals(RentalStatus.RENTED)) {
+        if (perRentalCreateUpdateDTO.getStatus().equals(RentalStatus.RENTED)) {
             car.setStatus(CarStatus.RENTED);
-        } else if (personalRentalDTO.getStatus().equals(RentalStatus.RESERVED)) {
+        } else if (perRentalCreateUpdateDTO.getStatus().equals(RentalStatus.RESERVED)) {
             car.setStatus(CarStatus.RESERVED);
         } else {
-            throw new StatusMismatchException("This status cannot be used when creating a rental : " + personalRentalDTO.getStatus());
+            throw new StatusMismatchException("This status cannot be used when creating a rental : " + perRentalCreateUpdateDTO.getStatus());
         }
 
 
@@ -150,15 +147,15 @@ public class PersonalRentalService {
         if (foundPersonalRental.getStatus().equals(RentalStatus.RESERVED)) {
 
             foundPersonalRental.setStatus(RentalStatus.CANCELLED);
-            updatePersonalRental(id, foundPersonalRental);
+            updatePersonalRental(id, foundPersonalRental.toPerRentalCreateUpdateDTO());
 
             CarDTO foundCar = foundPersonalRental.getCar();
             foundCar.setStatus(CarStatus.AVAILABLE);
-            carService.updateCar(foundCar.getPlateNumber(),foundCar);
+            carService.updateCar(foundCar.getPlateNumber(), foundCar);
 
             PersonalCustomerDTO foundCustomer = foundPersonalRental.getCustomer();
             foundCustomer.setStatus(CustomerStatus.AVAILABLE);
-            personalCustomerService.updatePersonalCustomer(foundCustomer.getPhoneNumber(),foundCustomer);
+            personalCustomerService.updatePersonalCustomer(foundCustomer.getPhoneNumber(), foundCustomer);
 
 
         } else {
@@ -167,14 +164,15 @@ public class PersonalRentalService {
 
     }
 
-    public PersonalRentalDTO updatePersonalRental(Long id, PersonalRentalDTO rentalDTO) {//PerCustomer
+    public PersonalRentalDTO updatePersonalRental(Long id, PerRentalCreateUpdateDTO rentalDTO) {//PerCustomer
 
         PersonalRental personalRental = personalRentalRepository.
                 findById(id).
                 orElseThrow(() -> new ResourceNotFoundException("Personal rental not found with this id : " + id));
 
-        CarDTO carUpdated = rentalDTO.getCar();
-        PersonalCustomerDTO customerUpdate = rentalDTO.getCustomer();
+
+        CarDTO carUpdated = new CarDTO(carService.findCar(rentalDTO.getCarPlateNum()));
+        PersonalCustomerDTO customerUpdate = new PersonalCustomerDTO(personalCustomerService.findPersonal(rentalDTO.getCustomerPhoneNum()));
 
         CarStatus status = carService.findCarByPlateNumber(carUpdated.getPlateNumber()).getStatus();
 
@@ -195,9 +193,6 @@ public class PersonalRentalService {
         }
 
 
-
-
-
         personalRental.setCar(carService.findCar(carUpdated.getPlateNumber()));
         personalRental.setCustomer(personalCustomerService.findPersonal(customerUpdate.getPhoneNumber()));
         personalRental.setReturnDate(rentalDTO.getReturnDate());
@@ -215,15 +210,15 @@ public class PersonalRentalService {
         if (foundPersonalRental.getStatus().equals(RentalStatus.RENTED)) {
 
             foundPersonalRental.setStatus(RentalStatus.COMPLETED);
-            updatePersonalRental(id, foundPersonalRental);
+            updatePersonalRental(id, foundPersonalRental.toPerRentalCreateUpdateDTO());
 
             CarDTO foundCar = foundPersonalRental.getCar();
             foundCar.setStatus(CarStatus.AVAILABLE);
-            carService.updateCar(foundCar.getPlateNumber(),foundCar);
+            carService.updateCar(foundCar.getPlateNumber(), foundCar);
 
             PersonalCustomerDTO foundCustomer = foundPersonalRental.getCustomer();
             foundCustomer.setStatus(CustomerStatus.AVAILABLE);
-            personalCustomerService.updatePersonalCustomer(foundCustomer.getPhoneNumber(),foundCustomer);
+            personalCustomerService.updatePersonalCustomer(foundCustomer.getPhoneNumber(), foundCustomer);
 
 
         } else {

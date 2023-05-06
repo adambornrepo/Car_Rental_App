@@ -22,7 +22,7 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-    @PostMapping("/new")
+    @PostMapping("/new")  //Staff
     public ResponseEntity<?> signUp(@Valid @RequestBody EmployeeDTO employeeDTO, BindingResult result) {
 
         if (result.hasErrors()) {
@@ -38,7 +38,7 @@ public class EmployeeController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Employee created successfully");
     }
 
-    @GetMapping("/{phoneNum}")
+    @GetMapping("/{phoneNum}")  // Staff
     public ResponseEntity<EmployeeDTO> getEmployeeByPhoneNum(@PathVariable("phoneNum") String phoneNumber) {
 
         EmployeeDTO found = employeeService.getEmployeeByPhoneNum(phoneNumber);
@@ -46,7 +46,7 @@ public class EmployeeController {
 
     }
 
-    @PutMapping("/{phoneNum}")
+    @PutMapping("/{phoneNum}")  // Staff
     public ResponseEntity<?> updateEmployee(@PathVariable("phoneNum") String phoneNumber, @Valid @RequestBody EmployeeDTO employeeDTO, BindingResult result) {
 
         if (result.hasErrors()) {
@@ -58,7 +58,7 @@ public class EmployeeController {
         return ResponseEntity.status(HttpStatus.OK).body("Employee successfully updated");
     }
 
-    @DeleteMapping("/{phoneNum}")
+    @DeleteMapping("/{phoneNum}")  // Staff
     public ResponseEntity<?> deleteEmployee(@PathVariable("phoneNum") String phoneNumber) {
 
         employeeService.deleteEmployee(phoneNumber);
@@ -66,7 +66,7 @@ public class EmployeeController {
         return ResponseEntity.ok("Employee successfully deleted");
     }
 
-    @GetMapping("/login")
+    @GetMapping("/login")  // Staff
     public ResponseEntity<?> getEmployeeByUsername(@Valid @RequestBody EmployeeLoginDTO loginDTO, BindingResult result) {
 
         if (result.hasErrors()) {

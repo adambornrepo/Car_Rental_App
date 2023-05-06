@@ -53,13 +53,14 @@ public class PersonalCustomerService {
         return personalCustomerRepository.save(personalCustomer);
     }
 
-    public PersonalCustomerDTO findPersonalCustomerById(Long id) {
-        PersonalCustomer personalCustomer = personalCustomerRepository.
-                findById(id).
-                orElseThrow(() -> new ResourceNotFoundException("Personal customer with this ID not found : " + id));
-
-        return new PersonalCustomerDTO(personalCustomer);
-    }
+// Not used anymore
+//    public PersonalCustomerDTO findPersonalCustomerById(Long id) {
+//        PersonalCustomer personalCustomer = personalCustomerRepository.
+//                findById(id).
+//                orElseThrow(() -> new ResourceNotFoundException("Personal customer with this ID not found : " + id));
+//
+//        return new PersonalCustomerDTO(personalCustomer);
+//    }
 
     public PersonalCustomer findPersonal(String phoneNumber) {
 
