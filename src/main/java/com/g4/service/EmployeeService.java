@@ -11,6 +11,9 @@ import com.g4.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 public class EmployeeService {
 
@@ -97,7 +100,7 @@ public class EmployeeService {
         updateEmployee(phoneNumber, new EmployeeDTO(found));
     }
 
-    public String getEmployeeByUsername(EmployeeLoginDTO loginDTO) {
+    public Map<String,String> getEmployeeByUsername(EmployeeLoginDTO loginDTO) {
 
         Employee employee = employeeRepository.
                 findByUsername(loginDTO.getUsername()).
@@ -107,7 +110,11 @@ public class EmployeeService {
             throw new IllegalLoginRequestException("Failed to login. Username and/or password incorrect");
         }
 
-        return employee.getName() + " " + employee.getLastname();
+        Map<String,String> response = new HashMap<>();
+        response.put("fullname",employee.getName() + " " + employee.getLastname());
+        response.put("phoneNumber",employee.getPhoneNumber());
+
+        return response;
 
     }
 }

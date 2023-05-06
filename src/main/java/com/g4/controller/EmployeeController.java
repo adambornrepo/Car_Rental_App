@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/emp")
 public class EmployeeController {
@@ -73,9 +75,9 @@ public class EmployeeController {
             return ResponseEntity.badRequest().body("Invalid input");
         }
 
-        String fullName = employeeService.getEmployeeByUsername(loginDTO);
+        Map<String, String> respone = employeeService.getEmployeeByUsername(loginDTO);
 
-        return ResponseEntity.ok(fullName);
+        return ResponseEntity.ok(respone);
     }
 
 

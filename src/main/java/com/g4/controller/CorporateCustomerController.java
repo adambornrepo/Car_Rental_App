@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/corp")
@@ -56,9 +57,9 @@ public class CorporateCustomerController {
             return ResponseEntity.badRequest().body("Invalid input");
         }
 
-        String fullName = corporateCustomerService.getCorporateCustomerByUsername(loginDTO);
+        Map<String, String> response = corporateCustomerService.getCorporateCustomerByUsername(loginDTO);
 
-        return ResponseEntity.ok(fullName);
+        return ResponseEntity.ok(response);
     }
 
 

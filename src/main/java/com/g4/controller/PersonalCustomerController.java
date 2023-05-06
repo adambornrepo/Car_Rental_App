@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/per")
@@ -28,7 +29,7 @@ public class PersonalCustomerController {
     public ResponseEntity<?> signUp(@Valid @RequestBody PersonalCustomerDTO personalCustomerDTO, BindingResult result) {
 
         if (result.hasErrors()) {
-            return ResponseEntity.badRequest().body("Invalid input");
+            return ResponseEntity.badRequest().body("Invalid input bu kısım çalıştı");
         }
 
         PersonalCustomer personalCustomer = personalCustomerService.createPersonalCustomer(personalCustomerDTO);
@@ -95,9 +96,9 @@ public class PersonalCustomerController {
             return ResponseEntity.badRequest().body("Invalid input");
         }
 
-        String fullName = personalCustomerService.getPersonalCustomerByUsername(loginDTO);
+        Map<String, String> response = personalCustomerService.getPersonalCustomerByUsername(loginDTO);
 
-        return ResponseEntity.ok(fullName);
+        return ResponseEntity.ok(response);
     }
 
 

@@ -12,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CorporateCustomerService {
@@ -127,7 +129,7 @@ public class CorporateCustomerService {
         return allCorporateCustomer;
     }
 
-    public String getCorporateCustomerByUsername(CorporateCustomerLoginDTO loginDTO) {
+    public Map<String,String> getCorporateCustomerByUsername(CorporateCustomerLoginDTO loginDTO) {
 
         CorporateCustomer corporateCustomer = corporateCustomerRepository.
                 findByUsername(loginDTO.getUsername()).
@@ -137,7 +139,11 @@ public class CorporateCustomerService {
             throw new IllegalLoginRequestException("Failed to login. Username and/or password incorrect");
         }
 
-        return corporateCustomer.getName() + " " + corporateCustomer.getLastname();
+        Map<String,String> response = new HashMap<>();
+        response.put("fullname",corporateCustomer.getName() + " " + corporateCustomer.getLastname());
+        response.put("phoneNumber",corporateCustomer.getPhoneNumber());
+
+        return response;
     }
 
 

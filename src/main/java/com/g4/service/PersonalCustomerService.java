@@ -13,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class PersonalCustomerService {
@@ -36,7 +38,7 @@ public class PersonalCustomerService {
             throw new UniqueValueAlreadyExistException("This phone number is already registered");
         } else if (personalCustomerDTO.getAge() < 20) {
             throw new IllegalInputException("Personal customer cannot be under 20 years old");
-        } else if (personalCustomerDTO.isValidLicenseYear()) {
+        } else if (!personalCustomerDTO.isValidLicenseYear()) {
             throw  new IllegalInputException("License must be at least two years");
         }
 
@@ -129,7 +131,7 @@ public class PersonalCustomerService {
     }
 
 
-    public String getPersonalCustomerByUsername(PersonalCustomerLoginDTO loginDTO) {
+    public Map<String,String> getPersonalCustomerByUsername(PersonalCustomerLoginDTO loginDTO) {
         PersonalCustomer personalCustomer = personalCustomerRepository.
                 findByUsername(loginDTO.getUsername()).
                 orElseThrow(() -> new ResourceNotFoundException("Personal customer with this username not found : " + loginDTO.getUsername()));
@@ -137,8 +139,11 @@ public class PersonalCustomerService {
         if (!personalCustomer.getPassword().equals(loginDTO.getPassword())) {
             throw new IllegalLoginRequestException("Failed to login. Username and/or password incorrect");
         }
+        Map<String,String> response = new HashMap<>();
+        response.put("fullname",personalCustomer.getName() + " " + personalCustomer.getLastname());
+        response.put("phoneNumber",personalCustomer.getPhoneNumber());
 
-        return personalCustomer.getName() + " " + personalCustomer.getLastname();
+        return response;
     }
 
     public List<PersonalCustomerDTO> getAllActivePersonalCustomer() {
