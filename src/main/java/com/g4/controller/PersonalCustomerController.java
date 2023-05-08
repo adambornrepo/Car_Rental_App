@@ -81,7 +81,7 @@ public class PersonalCustomerController {
         return ResponseEntity.ok(personalCustomerList);
     }
 
-    @GetMapping("allActive")  // Staff
+    @GetMapping("/allActive")  // Staff
     public ResponseEntity<?> getAllActivePersonalCustomer() {
 
         List<PersonalCustomerDTO> personalCustomerList = personalCustomerService.getAllActivePersonalCustomer();
@@ -89,7 +89,7 @@ public class PersonalCustomerController {
         return ResponseEntity.ok(personalCustomerList);
     }
 
-    @GetMapping("/login") //PerCustomer
+    @PostMapping("/login") //PerCustomer
     public ResponseEntity<?> getPersonalCustomerByUsername(@Valid @RequestBody PersonalCustomerLoginDTO loginDTO, BindingResult result) {
 
         if (result.hasErrors()) {
@@ -97,6 +97,7 @@ public class PersonalCustomerController {
         }
 
         Map<String, String> response = personalCustomerService.getPersonalCustomerByUsername(loginDTO);
+
 
         return ResponseEntity.ok(response);
     }

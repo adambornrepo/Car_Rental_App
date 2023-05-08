@@ -42,7 +42,7 @@ public class CorporateCustomerController {
         return ResponseEntity.ok(corporateCustomerDTOList);
     }
 
-    @GetMapping("allActive")
+    @GetMapping("/allActive")
     public ResponseEntity<?> getAllActiveCorporateCustomer() {  //Staff
 
         List<CorporateCustomerDTO> corporateCustomerDTOList = corporateCustomerService.getAllActiveCorporateCustomer();
@@ -50,7 +50,7 @@ public class CorporateCustomerController {
         return ResponseEntity.ok(corporateCustomerDTOList);
     }
 
-    @GetMapping("/login")  //CorpCustomer
+    @PostMapping("/login")  //CorpCustomer
     public ResponseEntity<?> getCorporateCustomerByUsername(@Valid @RequestBody CorporateCustomerLoginDTO loginDTO, BindingResult result) {
 
         if (result.hasErrors()) {

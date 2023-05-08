@@ -76,7 +76,7 @@ public class CorporateCustomerService {
                 .orElseThrow(() -> new ResourceNotFoundException("Corporate customer not found with this phone number : " + phoneNumber));
 
         if (!corporateCustomer.getUsername().equals(corporateCustomerDTO.getUsername())
-                && corporateCustomerRepository.findByUsername(corporateCustomer.getUsername()).isPresent()) {
+                && corporateCustomerRepository.findByUsername(corporateCustomerDTO.getUsername()).isPresent()) {
             throw new UniqueValueAlreadyExistException("Username already exists");
         }
 

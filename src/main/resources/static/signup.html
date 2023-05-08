@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+        <link rel="stylesheet" href="styles/signin.css">
+</head>
+<body>
+<div class="container">
+    <div class="row w-100">
+        <div class="col-md-4"></div>
+        <div class="col-md-4 shadow-lg p-4 rounded-4">
+            <form action="/per/signup" method="post" onsubmit="submitForm(event)">
+                <h2 class="text-center mb-4">Kayıt Ol</h2>
+                <label for="name" class="mb-2">İsim</label>
+                <input type="text" id="name" class="form-control mb-3 shadow-sm" placeholder="Name" required>
+                <span class="error-message" ></span>
+                <label for="surname" class="mb-2">Soyadı</label>
+                <input type="text" id="surname" class="form-control shadow-sm mb-3" placeholder="Surname" required>
+                <span class="error-message"></span>
+                <label for="phone" class="mb-2">Telefon</label>
+                <input type="text" id="phone" class="form-control shadow-sm mb-3" placeholder="Phone" required>
+                <span class="error-message" ></span>
+                <label for="username" class="mb-2" >Kullanıcı Adı:</label>
+                <input type="text" id="username" name="username" class="form-control shadow-sm mb-3" required>
+                <span class="error-message"></span>
+                <label for="password" class="mb-2">Şifre </label>
+                <input type="password" id="password" class="form-control shadow-sm" placeholder="Password" required>
+                <span class="error-message"></span>
+                <input type="hidden" value="AVAILABLE" id="status" name="status" required>
+                <label for="birthdate" class="mb-2" >Doğum Gününüz</label>
+                <input type="date" id="birthdate" min="1950-04-01" max="2017-04-20" name="birthdate" class="form-control shadow-sm mb-3" required>
+                <span class="error-message"> </span>
+                <label for="licenseYear" class="mb-2" >Ehliyeti Alış Tarihiniz</label>
+                <input type="date" id="licenseYear" min="1950-04-01" max="2016-04-20" name="licenseYear" class="form-control shadow-sm mb-3" required>
+                <span class="error-message" ></span>
+                <div class="text-center">
+                   <button type="submit" class="btn btn-lg btn-secondary mt-4" onclick="addCustomer()">Sign Up</button></div>
+
+                <div class="text-center mt-3">
+                    <span>Hesabın var mı?</span> <a href="signin.html" class="text-center text-decoration-none">Giriş Yap</a>
+                </div>
+
+                <div class="text-center mt-1">
+                    <a href="/index.html" class="text-decoration-none">Anasayfa</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+    <script type="text/javascript">
+        function submitForm(event) {
+            // Form verilerini topla
+            const name = document.getElementById("name").value;
+            const surname = document.getElementById("surname").value;
+            const phone = document.getElementById("phone").value;
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+            const status = document.getElementById("status").value;
+            const birthdate = document.getElementById("birthdate").value;
+            const licenseYear = document.getElementById("licenseYear").value;
+
+            // JSON verisi oluştur
+            const customerData = {
+                name: name,
+                lastname: surname,
+                phoneNumber: phone,
+                username: username,
+                password: password,
+                status: status,
+                birthdate: birthdate,
+                licenseYear: licenseYear
+            };
+
+            // POST isteği gönder
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "/per/signup");
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xhr.onload = function() {
+
+                if (xhr.status === 201) {
+                    // Kayıt başarılı oldu, kiralama sayfasına yönlendir
+                    window.location.href = "/index.html";
+                } else {
+                    // Kayıt başarısız oldu, hata mesajı göster
+                    alert(xhr.responseText);
+                }
+            };
+            xhr.send(JSON.stringify(customerData));
+
+            // Sayfa yenilemeyi önle
+            event.preventDefault();
+        }
+    </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+</body>
+</html>

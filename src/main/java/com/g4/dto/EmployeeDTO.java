@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.g4.domain.Address;
 import com.g4.domain.Employee;
 import com.g4.enums.Position;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -17,7 +16,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class EmployeeDTO {
 
-    @Id
+
     private Long id;
 
     @NotBlank(message = "Employee name cannot be empty")
@@ -27,7 +26,7 @@ public class EmployeeDTO {
     private String lastname;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    @NotBlank(message = "Birthdate cannot be null")
+    @NotNull(message = "Birthdate cannot be null")
     private LocalDate birthdate;
 
     @NotBlank(message = "Phone number cannot be empty")

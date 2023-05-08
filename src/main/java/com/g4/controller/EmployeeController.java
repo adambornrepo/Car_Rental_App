@@ -68,16 +68,16 @@ public class EmployeeController {
         return ResponseEntity.ok("Employee successfully deleted");
     }
 
-    @GetMapping("/login")  // Staff
+    @PostMapping("/login")  // Staff
     public ResponseEntity<?> getEmployeeByUsername(@Valid @RequestBody EmployeeLoginDTO loginDTO, BindingResult result) {
 
         if (result.hasErrors()) {
             return ResponseEntity.badRequest().body("Invalid input");
         }
 
-        Map<String, String> respone = employeeService.getEmployeeByUsername(loginDTO);
+        Map<String, String> response = employeeService.getEmployeeByUsername(loginDTO);
 
-        return ResponseEntity.ok(respone);
+        return ResponseEntity.ok(response);
     }
 
 

@@ -29,7 +29,7 @@ public class Employee {
     @Column(length = 30, nullable = false)
     private String lastname;
 
-    @NotBlank(message = "Birthdate cannot be null")
+    @NotNull(message = "Birthdate cannot be null")
     @Column(nullable = false)
     private LocalDate birthdate;
 

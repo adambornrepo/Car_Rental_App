@@ -139,11 +139,11 @@ public class PersonalCustomerService {
         if (!personalCustomer.getPassword().equals(loginDTO.getPassword())) {
             throw new IllegalLoginRequestException("Failed to login. Username and/or password incorrect");
         }
-        Map<String,String> response = new HashMap<>();
-        response.put("fullname",personalCustomer.getName() + " " + personalCustomer.getLastname());
-        response.put("phoneNumber",personalCustomer.getPhoneNumber());
+        Map<String,String> resp = new HashMap<>();
+        resp.put("fullname",personalCustomer.getName() + " " + personalCustomer.getLastname());
+        resp.put("phoneNumber",personalCustomer.getPhoneNumber());
 
-        return response;
+        return resp;
     }
 
     public List<PersonalCustomerDTO> getAllActivePersonalCustomer() {
