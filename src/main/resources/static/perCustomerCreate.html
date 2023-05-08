@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Müşteri Oluştur</title>
+</head>
+<body>
+
+<div class="p-5 bg-primary text-white text-center">
+    <h1>Admin Page</h1>
+    <p>Arabas kiralama sistemi!</p>
+</div>
+
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <div class="container-fluid">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link active" href="aindex.html">Admin Ana Sayfası</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Müşteri Hizmetleri</a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="perCustomerCreate.html">Müşteri Oluştur</a></li>
+                    <li><a class="dropdown-item" href="perCustomers.html">Müşteri Düzenle</a></li>
+                    <li><a class="dropdown-item" href="filoCustomers.html">Filo Müşteri Düzenle</a></li>
+                    <li><a class="dropdown-item" href="filoCustomerCreate.html">Filo Müşteri Oluştur</a></li>
+
+                </ul>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Araç Hizmetleri</a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="filoCreate.html">Filo Oluştur</a></li>
+                    <li><a class="dropdown-item" href="filo.html">Filo Düzenle</a></li>
+                    <li><a class="dropdown-item" href="carCreate.html">Araba Oluştur</a></li>
+                    <li><a class="dropdown-item" href="cars.html">Araba Düzenle</a></li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Site Hizmetleri</a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="empsCreate.html">Çalışan Oluştur</a></li>
+                    <li><a class="dropdown-item" href="emps.html">Çalışan Düzenle</a></li>
+
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-sm-4" id="employeesTable">
+
+        </div>
+        <div class="col-sm-8" id="car-list">
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        // Tablo verilerini alma
+        $.ajax({
+            url: "/per",
+            type: "GET",
+            contentType: "application/json",
+            success: function (data) {
+                // Tablo oluşturma
+                var table = $('<table>').addClass('table table-striped');
+                var thead = $('<thead>').appendTo(table);
+                var tbody = $('<tbody>').appendTo(table);
+                var headerRow = $('<tr>').appendTo(thead);
+                $('<th>').text('Name').appendTo(headerRow);
+                $('<th>').text('Lastname').appendTo(headerRow);
+                $('<th>').text('Phone Number').appendTo(headerRow);
+                $('<th>').text('Birthdate').appendTo(headerRow);
+                $('<th>').text('License Year').appendTo(headerRow);
+                $('<th>').text('Status').appendTo(headerRow);
+                $('<th>').text('Username').appendTo(headerRow);
+                $('<th>').text('Actions').appendTo(headerRow);
+
+                // Verileri tabloya ekleme
+                $.each(data, function (i, item) {
+                    var tr = $('<tr>').appendTo(tbody);
+                    $('<td>').text(item.name).appendTo(tr);
+                    $('<td>').text(item.lastname).appendTo(tr);
+                    $('<td>').text(item.phoneNumber).appendTo(tr);
+                    $('<td>').text(item.birthdate).appendTo(tr);
+                    $('<td>').text(item.licenseYear).appendTo(tr);
+                    $('<td>').text(item.status).appendTo(tr);
+                    $('<td>').text(item.username).appendTo(tr);
+
+                    // Düzenleme butonu ekleme
+                    var editButton = $('<button>').addClass('btn btn-primary btn-sm').text('Edit').click(function () {
+                        editRow(item);
+                    }).appendTo($('<td>').appendTo(tr));
+
+                    // Silme butonu ekleme
+                    var deleteButton = $('<button>').addClass('btn btn-danger btn-sm').text('Delete').click(function () {
+                        deleteRow(item.phoneNumber);
+                    }).appendTo($('<td>').appendTo(tr));
+                });
+
+                // Tabloyu HTML sayfasına ekleme
+                $('#table-container').append(table);
+            }
+        });
+
+        // Formu gösterme
+        $('#edit-form').show();
+
+        // Düzenleme butonu tıklama işlemi
+        $('#edit-submit').click(function () {
+            // Düzenlenen verileri alıp API'ye gönderme
+            var updatedItem = {
+                name: $('#name').val(),
+                lastname: $('#lastname').val(),
+                phoneNumber: $('#phoneNumber').val(),
+                birthdate: $('#birthdate').val(),
+                licenseYear: $('#licenseYear').val(),
+                status: $('#status').val(),
+                username: $('#username').val(),
+                password: $('#password').val()
+            };
+
+            $.ajax({
+                url: "/per/" + item.phoneNumber,
+                type: "PUT",
+                contentType: "application/json",
+                data: JSON.stringify(updatedItem),
+                success: function () {
+                    alert("Item updated successfully.");
+
+                    location.reload();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    // error message
+                    alert("An error occurred while updating the item.");
+                }
+            });
+
+            $.ajax({
+                url: "/per/" + item.phoneNumber,
+                type: "DELETE",
+                success: function () {
+                    // success message
+                    alert("Item deleted successfully.");
+
+                    // reload the page to display the updated data
+                    location.reload();
+                },
+                error: function () {
+                    // error message
+                    alert("An error occurred while deleting the item.");
+                }
+            });
+        });
+    });
+
+
+
+
+
+
+
+
+
+</script>
+</body>
+</html>

@@ -16,7 +16,7 @@
         <div class="col-md-4"></div>
         <div class="col-md-4 shadow-lg p-4 rounded-4">
             <form id="frmLogin">
-                <h2 class="text-center mb-4">Giriş Yap</h2>
+                <h2 class="text-center mb-4">Admin Page</h2>
                 <label for="username" class="mb-2">Kullanıcı Adı</label>
                 <input type="text" id="username" class="form-control mb-3 shadow-sm" placeholder="Username">
                 <label for="password" class="mb-2">Şifre</label>
@@ -24,11 +24,8 @@
                 <div class="text-center">
                     <button type="submit" class="btn btn-lg btn-primary">Login</button>
                 </div>
-                <div class="text-center mt-3">
-                    <span>Hesabın yok mu?</span> <a href="signup.html" class="text-center text-decoration-none">Hesap Oluştur</a>
-                </div>
                 <div class="text-center mt-1">
-                    <a href="index.html" class="text-decoration-none">Anasayfa</a>
+                    <a href="aindex.html" class="text-decoration-none">Anasayfa</a>
                 </div>
             </form>
         </div>
@@ -48,15 +45,15 @@
             });
             $.ajax({
                 method: "POST",
-                url: "/per/login",
+                url: "/emp/login",
                 data: _loginData,
                 contentType: "application/json",
                 success: function(response) {
                     localStorage.clear();
-                    localStorage.setItem("username", response.fullname);
+
                     localStorage.setItem("phoneNumber", response.phoneNumber);
 
-                    window.location.href = "per.html";
+                    window.location.href = "aindex.html";
                 }
             });
         });

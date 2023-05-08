@@ -692,3 +692,128 @@ jakarta.validation.UnexpectedTypeException: HV000030: No validator could be foun
 2023-05-08 04:39:43,433 WARN  [SpringApplicationShutdownHook] org.springframework.beans.factory.support.DisposableBeanAdapter:Invocation of destroy method failed on bean with name 'inMemoryDatabaseShutdownExecutor': org.h2.jdbc.JdbcSQLNonTransientConnectionException: Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-214]
 2023-05-08 04:39:43,434 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown initiated...
 2023-05-08 04:39:43,588 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown completed.
+2023-05-08 11:59:04,103 INFO  [restartedMain] com.g4.CarrentalApplication:Starting CarrentalApplication using Java 17.0.5 with PID 10408 (D:\programming\carrental\target\classes started by AdamBorn in D:\programming\carrental)
+2023-05-08 11:59:04,109 INFO  [restartedMain] com.g4.CarrentalApplication:No active profile set, falling back to 1 default profile: "default"
+2023-05-08 11:59:04,324 INFO  [restartedMain] org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor:Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-05-08 11:59:04,324 INFO  [restartedMain] org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor:For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-05-08 11:59:06,681 INFO  [restartedMain] org.springframework.data.repository.config.RepositoryConfigurationDelegate:Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-05-08 11:59:06,858 INFO  [restartedMain] org.springframework.data.repository.config.RepositoryConfigurationDelegate:Finished Spring Data repository scanning in 159 ms. Found 6 JPA repository interfaces.
+2023-05-08 11:59:08,407 INFO  [restartedMain] org.springframework.boot.web.embedded.tomcat.TomcatWebServer:Tomcat initialized with port(s): 8080 (http)
+2023-05-08 11:59:08,426 INFO  [restartedMain] org.apache.catalina.core.StandardService:Starting service [Tomcat]
+2023-05-08 11:59:08,427 INFO  [restartedMain] org.apache.catalina.core.StandardEngine:Starting Servlet engine: [Apache Tomcat/10.1.8]
+2023-05-08 11:59:08,542 INFO  [restartedMain] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]:Initializing Spring embedded WebApplicationContext
+2023-05-08 11:59:08,543 INFO  [restartedMain] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext:Root WebApplicationContext: initialization completed in 4218 ms
+2023-05-08 11:59:08,812 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Starting...
+2023-05-08 11:59:09,180 INFO  [restartedMain] com.zaxxer.hikari.pool.HikariPool:HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:carrental user=SA
+2023-05-08 11:59:09,185 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Start completed.
+2023-05-08 11:59:09,224 INFO  [restartedMain] org.springframework.boot.autoconfigure.h2.H2ConsoleAutoConfiguration:H2 console available at '/db'. Database available at 'jdbc:h2:mem:carrental'
+2023-05-08 11:59:09,612 INFO  [restartedMain] org.hibernate.jpa.internal.util.LogHelper:HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-05-08 11:59:09,707 INFO  [restartedMain] org.hibernate.Version:HHH000412: Hibernate ORM core version 6.1.7.Final
+2023-05-08 11:59:10,328 INFO  [restartedMain] SQL dialect:HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2023-05-08 11:59:12,995 INFO  [restartedMain] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator:HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-05-08 11:59:13,006 INFO  [restartedMain] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean:Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-05-08 11:59:14,907 WARN  [restartedMain] org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration:spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-05-08 11:59:15,272 INFO  [restartedMain] org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping:Adding welcome page: class path resource [static/index.html]
+2023-05-08 11:59:15,503 WARN  [restartedMain] org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration$DefaultTemplateResolverConfiguration:Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2023-05-08 11:59:16,080 INFO  [restartedMain] org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer:LiveReload server is running on port 35729
+2023-05-08 11:59:16,095 INFO  [restartedMain] org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver:Exposing 4 endpoint(s) beneath base path '/actuator'
+2023-05-08 11:59:16,255 INFO  [restartedMain] org.springframework.boot.web.embedded.tomcat.TomcatWebServer:Tomcat started on port(s): 8080 (http) with context path ''
+2023-05-08 11:59:16,300 INFO  [restartedMain] com.g4.CarrentalApplication:Started CarrentalApplication in 13.195 seconds (process running for 14.521)
+2023-05-08 11:59:23,937 INFO  [http-nio-8080-exec-1] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]:Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-05-08 13:06:17,855 WARN  [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool:HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=26m37s930ms729µs200ns).
+2023-05-08 13:06:18,986 INFO  [SpringApplicationShutdownHook] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean:Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-05-08 13:06:18,987 INFO  [SpringApplicationShutdownHook] org.hibernate.tool.schema.internal.SchemaDropperImpl$DelayedDropActionImpl:HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down'
+2023-05-08 13:06:19,352 WARN  [SpringApplicationShutdownHook] org.springframework.beans.factory.support.DisposableBeanAdapter:Invocation of destroy method failed on bean with name 'inMemoryDatabaseShutdownExecutor': org.h2.jdbc.JdbcSQLNonTransientConnectionException: Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-214]
+2023-05-08 13:06:19,354 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown initiated...
+2023-05-08 13:06:19,369 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown completed.
+2023-05-08 13:15:17,142 INFO  [restartedMain] com.g4.CarrentalApplication:Starting CarrentalApplication using Java 17.0.5 with PID 10368 (D:\programming\carrental\target\classes started by AdamBorn in D:\programming\carrental)
+2023-05-08 13:15:17,188 INFO  [restartedMain] com.g4.CarrentalApplication:No active profile set, falling back to 1 default profile: "default"
+2023-05-08 13:15:17,302 INFO  [restartedMain] org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor:Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-05-08 13:15:17,303 INFO  [restartedMain] org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor:For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-05-08 13:15:19,650 INFO  [restartedMain] org.springframework.data.repository.config.RepositoryConfigurationDelegate:Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-05-08 13:15:19,826 INFO  [restartedMain] org.springframework.data.repository.config.RepositoryConfigurationDelegate:Finished Spring Data repository scanning in 145 ms. Found 6 JPA repository interfaces.
+2023-05-08 13:15:21,338 INFO  [restartedMain] org.springframework.boot.web.embedded.tomcat.TomcatWebServer:Tomcat initialized with port(s): 8080 (http)
+2023-05-08 13:15:21,360 INFO  [restartedMain] org.apache.catalina.core.StandardService:Starting service [Tomcat]
+2023-05-08 13:15:21,361 INFO  [restartedMain] org.apache.catalina.core.StandardEngine:Starting Servlet engine: [Apache Tomcat/10.1.8]
+2023-05-08 13:15:21,524 INFO  [restartedMain] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]:Initializing Spring embedded WebApplicationContext
+2023-05-08 13:15:21,526 INFO  [restartedMain] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext:Root WebApplicationContext: initialization completed in 4221 ms
+2023-05-08 13:15:21,901 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Starting...
+2023-05-08 13:15:22,356 INFO  [restartedMain] com.zaxxer.hikari.pool.HikariPool:HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:carrental user=SA
+2023-05-08 13:15:22,362 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Start completed.
+2023-05-08 13:15:22,399 INFO  [restartedMain] org.springframework.boot.autoconfigure.h2.H2ConsoleAutoConfiguration:H2 console available at '/db'. Database available at 'jdbc:h2:mem:carrental'
+2023-05-08 13:15:23,003 INFO  [restartedMain] org.hibernate.jpa.internal.util.LogHelper:HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-05-08 13:15:23,242 INFO  [restartedMain] org.hibernate.Version:HHH000412: Hibernate ORM core version 6.1.7.Final
+2023-05-08 13:15:23,802 INFO  [restartedMain] SQL dialect:HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2023-05-08 13:15:25,752 INFO  [restartedMain] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator:HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-05-08 13:15:25,764 INFO  [restartedMain] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean:Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-05-08 13:15:27,631 WARN  [restartedMain] org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration:spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-05-08 13:15:27,940 INFO  [restartedMain] org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping:Adding welcome page: class path resource [static/index.html]
+2023-05-08 13:15:28,188 WARN  [restartedMain] org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration$DefaultTemplateResolverConfiguration:Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2023-05-08 13:15:28,729 INFO  [restartedMain] org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer:LiveReload server is running on port 35729
+2023-05-08 13:15:28,743 INFO  [restartedMain] org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver:Exposing 4 endpoint(s) beneath base path '/actuator'
+2023-05-08 13:15:28,883 INFO  [restartedMain] org.springframework.boot.web.embedded.tomcat.TomcatWebServer:Tomcat started on port(s): 8080 (http) with context path ''
+2023-05-08 13:15:28,918 INFO  [restartedMain] com.g4.CarrentalApplication:Started CarrentalApplication in 12.88 seconds (process running for 14.216)
+2023-05-08 13:15:37,776 INFO  [http-nio-8080-exec-1] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]:Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-05-08 13:18:11,708 ERROR [http-nio-8080-exec-10] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/].[dispatcherServlet]:Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: com.g4.exception.StatusMismatchException: Customer is not available for rental] with root cause
+com.g4.exception.StatusMismatchException: Customer is not available for rental
+	at com.g4.service.PersonalRentalService.createPersonalRental(PersonalRentalService.java:113)
+	at com.g4.controller.PersonalRentalController.createRental(PersonalRentalController.java:79)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:207)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:152)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:884)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:797)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1081)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:974)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1011)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:914)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:205)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
+	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:109)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:166)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:341)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:390)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:894)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+2023-05-08 13:23:50,097 INFO  [SpringApplicationShutdownHook] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean:Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-05-08 13:23:50,100 INFO  [SpringApplicationShutdownHook] org.hibernate.tool.schema.internal.SchemaDropperImpl$DelayedDropActionImpl:HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down'
+2023-05-08 13:23:50,441 WARN  [SpringApplicationShutdownHook] org.springframework.beans.factory.support.DisposableBeanAdapter:Invocation of destroy method failed on bean with name 'inMemoryDatabaseShutdownExecutor': org.h2.jdbc.JdbcSQLNonTransientConnectionException: Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-214]
+2023-05-08 13:23:50,442 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown initiated...
+2023-05-08 13:23:50,457 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown completed.
